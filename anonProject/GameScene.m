@@ -80,7 +80,7 @@
                 for(int i=0;i<[self.player1 getPlayerCardListCount];i++)
                 {
                     Card *aCard = [self.player1 getPlayerCardAtIndex:i];
-                    if([touchedCard.name isEqualToString:aCard.name])
+                    if(touchedCard.identifier == aCard.identifier)
                     {
                         touchedCard.focused=NO;
                         aCard.focused=NO;
@@ -106,7 +106,7 @@
                 for(int i=0;i<[self.player1 getPlayerCardListCount];i++)
                 {
                     Card *aCard=[self.player1 getPlayerCardAtIndex:i];
-                    if([touchedCard.name isEqualToString:aCard.name] && ![aCard isFocused])//card not selected
+                    if(touchedCard.identifier == aCard.identifier && ![aCard isFocused])//card not selected
                     {
                         touchedCard.focused=YES;
                         aCard.focused=YES;

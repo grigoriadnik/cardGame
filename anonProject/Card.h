@@ -13,6 +13,7 @@
 @property BOOL focused;
 @property NSInteger number;
 @property SKTexture *cardTexture;
+@property NSInteger identifier;
 /*
  normal - 1
  jack   - 2
@@ -32,6 +33,6 @@
 -(NSInteger) getNumber;
 -(NSInteger) getPointsWorth;
 -(SKTexture *) getCardTexture;
--(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused;
+-(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused cardIdentifier : (NSInteger) cardIdentifier;
 
 @end

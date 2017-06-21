@@ -21,28 +21,28 @@
         if(i/13==0)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"s%d.png",i+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i==11 || i==1)?1:0) cardImageString:[NSString stringWithFormat:@"s%d.png",i+1] isFocused:NO];
+            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i==11 || i==1)?1:0) cardImageString:[NSString stringWithFormat:@"s%d.png",i+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //hearts
         else if(i/13==1)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"h%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO];
+            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //clubs
         else if(i/13==2)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"c%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO];
+            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //diamonds
         else
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"d%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO];
+            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
     }

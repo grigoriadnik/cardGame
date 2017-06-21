@@ -30,13 +30,15 @@
     return self.cardTexture;
 }
 
--(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused
+-(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused cardIdentifier : (NSInteger) cardIdentifier
 {
     self.number = number;
     self.pointsWorth = pointsWorth;
     self.powerType = powerType;
     self.focused = isFocused;
+    self.identifier = cardIdentifier;
     self.cardTexture =  [SKTexture textureWithImage:[UIImage imageNamed:cardImage]];
+    self.name = [NSString stringWithFormat:@"%ld",(long)cardIdentifier];
 }
 
 @end
