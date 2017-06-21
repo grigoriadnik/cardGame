@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8B91EFA904D00DCE3C0 /* Deck.m */; };
+		1918B8BD1EFAAA0500DCE3C0 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BC1EFAAA0400DCE3C0 /* Player.m */; };
 		80658B231C560A5500AD3CB8 /* wood-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B221C560A5500AD3CB8 /* wood-background.jpg */; };
 		80658B261C560AFD00AD3CB8 /* Wood_Background_brown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */; };
 		80658B271C560AFD00AD3CB8 /* Wood_Background_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */; };
@@ -108,6 +110,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1918B8B81EFA904D00DCE3C0 /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Deck.h; sourceTree = "<group>"; };
+		1918B8B91EFA904D00DCE3C0 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
+		1918B8BB1EFAAA0400DCE3C0 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		1918B8BC1EFAAA0400DCE3C0 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		80658B221C560A5500AD3CB8 /* wood-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wood-background.jpg"; sourceTree = "<group>"; };
 		80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_brown.jpg; sourceTree = "<group>"; };
 		80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_green.jpg; sourceTree = "<group>"; };
@@ -252,6 +258,10 @@
 				80BC4CC21C4CDF390045D20E /* GameViewController.h */,
 				80BC4CC31C4CDF390045D20E /* GameViewController.m */,
 				80D2C7AF1B4ED1E700293210 /* GameScene.sks */,
+				1918B8B81EFA904D00DCE3C0 /* Deck.h */,
+				1918B8B91EFA904D00DCE3C0 /* Deck.m */,
+				1918B8BB1EFAAA0400DCE3C0 /* Player.h */,
+				1918B8BC1EFAAA0400DCE3C0 /* Player.m */,
 			);
 			name = "game 1";
 			sourceTree = "<group>";
@@ -587,12 +597,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */,
 				80A6D1A21C478B2100FB3145 /* Card.m in Sources */,
 				80D2C7B31B4ED1E700293210 /* MainMenu.m in Sources */,
 				80D2C7AB1B4ED1E700293210 /* AppDelegate.m in Sources */,
 				80D2C7AE1B4ED1E700293210 /* GameScene.m in Sources */,
 				80BC4CC41C4CDF390045D20E /* GameViewController.m in Sources */,
 				80D2C7A81B4ED1E700293210 /* main.m in Sources */,
+				1918B8BD1EFAAA0500DCE3C0 /* Player.m in Sources */,
 				80C650EA1C57652A00C9DE79 /* UIImage+animatedGIF.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

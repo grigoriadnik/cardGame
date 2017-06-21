@@ -11,12 +11,13 @@
 @interface Card : SKSpriteNode
 
 @property BOOL focused;
-@property int number;
+@property NSInteger number;
+@property SKTexture *cardTexture;
 /*
  normal - 1
  jack   - 2
  */
-@property int powerType;
+@property NSInteger powerType;
 
 /*
     2 of clubs     - 2 points
@@ -25,10 +26,12 @@
     jack           - 1 point
     else           - 0 points
  */
-@property int pointsWorth;
+@property NSInteger pointsWorth;
 
 -(BOOL) isFocused;
--(int) getNumber;
--(int) getPointsWorth;
+-(NSInteger) getNumber;
+-(NSInteger) getPointsWorth;
+-(SKTexture *) getCardTexture;
+-(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused;
 
 @end

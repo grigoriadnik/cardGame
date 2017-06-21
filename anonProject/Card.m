@@ -15,14 +15,28 @@
     return self.focused;
 }
 
--(int) getNumber
+-(NSInteger) getNumber
 {
     return self.number;
 }
 
--(int) getPointsWorth
+-(NSInteger) getPointsWorth
 {
     return self.pointsWorth;
+}
+
+-(SKTexture *) getCardTexture
+{
+    return self.cardTexture;
+}
+
+-(void) initCardWithNumber :(NSInteger) number powerType : (NSInteger) powerType pointsWorth : (NSInteger) pointsWorth cardImageString : (NSString *) cardImage isFocused : (BOOL) isFocused
+{
+    self.number = number;
+    self.pointsWorth = pointsWorth;
+    self.powerType = powerType;
+    self.focused = isFocused;
+    self.cardTexture =  [SKTexture textureWithImage:[UIImage imageNamed:cardImage]];
 }
 
 @end
