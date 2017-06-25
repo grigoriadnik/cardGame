@@ -14,6 +14,7 @@
 {
     Deck *newDeck = [[Deck alloc] init];
     newDeck.cards = [[NSMutableArray alloc] init];
+    newDeck.centerCardPileList = [[NSMutableArray alloc] init];
     
     for(int i=0;i<52;i++)
     {
@@ -28,24 +29,26 @@
         else if(i/13==1)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"h%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //clubs
         else if(i/13==2)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"c%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //diamonds
         else
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"d%d.png",i%13+1]];
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:((i%13==11 || i%13==1)?1:0) cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
     }
+    
+    [newDeck shuffleDeck];
     return newDeck;
 }
 
@@ -89,6 +92,17 @@
 -(void) removeCenterCardPileBottomCard
 {
     [self.centerCardPileList removeObjectAtIndex:0];
+}
+
+-(void) shuffleDeck
+{
+    for (NSInteger i = 0 ; i < [self.cards count] ; i++) {
+        
+        NSInteger newPositionIndex = [Utils getRandomNumberBetween:0 to:[self.cards count] -1 ];
+        id temp = [self.cards objectAtIndex:i];
+        [self.cards replaceObjectAtIndex:i withObject:[self.cards objectAtIndex:newPositionIndex]];
+        [self.cards replaceObjectAtIndex:newPositionIndex withObject:temp];
+    }
 }
 
 @end

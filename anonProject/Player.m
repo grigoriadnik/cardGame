@@ -10,11 +10,14 @@
 
 @implementation Player
 
-+(Player *) initPlayerWithIndex
++(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser
 {
     Player *newPlayer = [[Player alloc] init];
     newPlayer.playerCardList = [[NSMutableArray alloc] init];
     newPlayer.playerGatheredCardList = [[NSMutableArray alloc] init];
+    newPlayer.isCPU = isCPU;
+    newPlayer.playerIndex = index;
+    newPlayer.isUser = isUser;
     
     return newPlayer;
 }

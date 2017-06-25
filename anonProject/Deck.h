@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Card.h"
+#import "Utils.h"
 
 @interface Deck : NSObject
 
