@@ -13,8 +13,10 @@
 @property NSMutableArray *playerCardList;
 @property NSMutableArray *playerGatheredCardList;
 @property NSInteger playerIndex;
+@property BOOL isCPU;
+@property BOOL isUser;
 
-+(Player *) initPlayerWithIndex;
++(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser;
 
 -(NSInteger) getPlayerCardListCount;
 -(NSInteger) getPlayerGatheredCardListCount;

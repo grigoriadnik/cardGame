@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8B91EFA904D00DCE3C0 /* Deck.m */; };
 		1918B8BD1EFAAA0500DCE3C0 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BC1EFAAA0400DCE3C0 /* Player.m */; };
+		1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */; };
+		1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8C31F000BB800DCE3C0 /* Utils.m */; };
 		80658B231C560A5500AD3CB8 /* wood-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B221C560A5500AD3CB8 /* wood-background.jpg */; };
 		80658B261C560AFD00AD3CB8 /* Wood_Background_brown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */; };
 		80658B271C560AFD00AD3CB8 /* Wood_Background_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */; };
@@ -114,6 +116,11 @@
 		1918B8B91EFA904D00DCE3C0 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		1918B8BB1EFAAA0400DCE3C0 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		1918B8BC1EFAAA0400DCE3C0 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		1918B8BE1EFBBDD300DCE3C0 /* GameHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameHandler.h; sourceTree = "<group>"; };
+		1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameHandler.m; sourceTree = "<group>"; };
+		1918B8C11EFBF26100DCE3C0 /* GameHandlerDelegates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameHandlerDelegates.h; sourceTree = "<group>"; };
+		1918B8C21F000BB800DCE3C0 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		1918B8C31F000BB800DCE3C0 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		80658B221C560A5500AD3CB8 /* wood-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wood-background.jpg"; sourceTree = "<group>"; };
 		80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_brown.jpg; sourceTree = "<group>"; };
 		80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_green.jpg; sourceTree = "<group>"; };
@@ -260,8 +267,13 @@
 				80D2C7AF1B4ED1E700293210 /* GameScene.sks */,
 				1918B8B81EFA904D00DCE3C0 /* Deck.h */,
 				1918B8B91EFA904D00DCE3C0 /* Deck.m */,
+				1918B8BE1EFBBDD300DCE3C0 /* GameHandler.h */,
 				1918B8BB1EFAAA0400DCE3C0 /* Player.h */,
 				1918B8BC1EFAAA0400DCE3C0 /* Player.m */,
+				1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */,
+				1918B8C11EFBF26100DCE3C0 /* GameHandlerDelegates.h */,
+				1918B8C21F000BB800DCE3C0 /* Utils.h */,
+				1918B8C31F000BB800DCE3C0 /* Utils.m */,
 			);
 			name = "game 1";
 			sourceTree = "<group>";
@@ -469,6 +481,7 @@
 				TargetAttributes = {
 					80D2C7A11B4ED1E700293210 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = F6SZHVD3AZ;
 					};
 					80D2C7BF1B4ED1E800293210 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -597,6 +610,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */,
+				1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */,
 				1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */,
 				80A6D1A21C478B2100FB3145 /* Card.m in Sources */,
 				80D2C7B31B4ED1E700293210 /* MainMenu.m in Sources */,
@@ -731,6 +746,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F6SZHVD3AZ;
 				INFOPLIST_FILE = anonProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -741,6 +757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = F6SZHVD3AZ;
 				INFOPLIST_FILE = anonProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

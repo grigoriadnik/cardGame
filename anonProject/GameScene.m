@@ -53,498 +53,203 @@
     self.startNewHand=NO;
     
     [sprite2 setPosition:CGPointMake(self.view.frame.size.width/2+100, self.view.frame.size.height/2)];
-    if(self.numOfPlayers==2)
-        self.aTimer=[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCards2Players) userInfo:nil repeats:YES];
-    else
-        self.aTimer=[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCards4Players) userInfo:nil repeats:YES];
     
     self.imageForCardNameDict=[[NSMutableDictionary alloc] init];
     self.gameStart=YES;
     self.playsNowIndex=1;
-    self.player1 = [Player initPlayerWithIndex];
-    self.player2 = [Player initPlayerWithIndex];
-    self.player3 = [Player initPlayerWithIndex];
-    self.player4 = [Player initPlayerWithIndex];
     self.gameDeck = [Deck initDeck];
+    self.gameHandler = [GameHandler initGameWithNumberOfPlayers:self.numOfPlayers gameDeck:self.gameDeck listener:self];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    for(UITouch *touch in touches)
-    {
-        if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[Card class]] )
-        {
+    for(UITouch *touch in touches) {
+        
+        if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[Card class]] ) {
+            
+            Player *user = [self.gameHandler getUser];
             Card *touchedCard=(Card *)[self nodeAtPoint:[touch locationInNode:self]];
-            if(touchedCard.isFocused)//drop card
-            {
-                for(int i=0;i<[self.player1 getPlayerCardListCount];i++)
-                {
-                    Card *aCard = [self.player1 getPlayerCardAtIndex:i];
-                    if(touchedCard.identifier == aCard.identifier)
-                    {
+            if(touchedCard.isFocused){//drop card
+                for(int i=0;i<[user getPlayerCardListCount];i++) {
+                    Card *aCard = [user getPlayerCardAtIndex:i];
+                    if(touchedCard.identifier == aCard.identifier) {
                         touchedCard.focused=NO;
                         aCard.focused=NO;
                         [touchedCard setZPosition:[self.gameDeck getCenterCardPileCount]];
                         [touchedCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
                         SKAction *dropCard =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
                         [touchedCard runAction:dropCard completion:^{
-                            [self.player1 removePlayerCardAtIndex:i];
+                            [user removePlayerCardAtIndex:i];
                             [self.gameDeck addToCenterCardPileCard:aCard];
-                            [self checkWin];
-                             self.playsNowIndex=2;
-                            if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                                [self checkNewHand];
-                            else
-                                [self CPUPlays];
+                            [self.gameHandler checkWinWithDeck:self.gameDeck];
+                            [self.gameHandler endTurn : self.gameDeck];
                         }];
                         break;
                     }
                 }
             }
-            else//select another card
-            {
-                for(int i=0;i<[self.player1 getPlayerCardListCount];i++)
-                {
-                    Card *aCard=[self.player1 getPlayerCardAtIndex:i];
-                    if(touchedCard.identifier == aCard.identifier && ![aCard isFocused])//card not selected
-                    {
+            else { //select another card
+                Player *user = [self.gameHandler getUser];
+                for(int i=0;i<[user getPlayerCardListCount];i++) {
+                    
+                    Card *aCard=[user getPlayerCardAtIndex:i];
+                    if(touchedCard.identifier == aCard.identifier && ![aCard isFocused]){//card not selected
+                        
                         touchedCard.focused=YES;
                         aCard.focused=YES;
-//                        [self.playerCardsList replaceObjectAtIndex:i withObject:aCard];
                         SKAction *focusCard =[SKAction moveTo:CGPointMake(touchedCard.position.x, touchedCard.position.y+40)  duration:0.2];
                         [touchedCard runAction:focusCard];
                     }
-                    else if([aCard isFocused])//if another card is focused
-                    {
+                    else if([aCard isFocused]){//if another card is focused
+                    
                         Card *focusedCard= (Card *) [self childNodeWithName:aCard.name];
                         focusedCard.focused=NO;
                         aCard.focused=NO;
                         SKAction *focusCard =[SKAction moveTo:CGPointMake(focusedCard.position.x, focusedCard.position.y-40)  duration:0.2];
                         [focusedCard runAction:focusCard];
-//                        [self.playerCardsList replaceObjectAtIndex:i withObject:aCard];
-                    }
-                }
-            }
-        }
-    }
+                        
+                    }}}}}
 }
 
 -(void) CPUPlays
 {
-    NSInteger cardIndex=0;
-    if([self.gameDeck getCenterCardPileCount] != 0)
-    {
-        Card *topCard=[self.gameDeck getCenterCardPileTopCard];
-        switch (self.playsNowIndex)
-        {
-            case 2:
-            {
-                cardIndex = [self.player2 getIndexForCardNumber:topCard.number];
-                Card *originalCard= [self.player2 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player2 getPlayerCardAtIndex:cardIndex]];
-                [self.player2 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence completion:^{
-                    [self checkWin];
-                    if(self.numOfPlayers==2)
-                    {
-                        self.playsNowIndex=1;
-                        if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                            [self checkNewHand];
-                    }
-                    else
-                    {
-                        self.playsNowIndex++;
-                        if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                            [self checkNewHand];
-                        else
-                            [self CPUPlays];
-                    }
-                }];
-                break;
-            }
-            case 3:
-            {
-                cardIndex = [self.player3 getIndexForCardNumber:topCard.number];
-                Card *originalCard= [self.player3 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player3 getPlayerCardAtIndex:cardIndex]];
-                [self.player3 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence completion:^{
-                    [self checkWin];
-                    self.playsNowIndex++;
-                    if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                        [self checkNewHand];
-                    else
-                        [self CPUPlays];
-                }];
-                break;
-            }
-            case 4:
-            {
-                cardIndex = [self.player4 getIndexForCardNumber:topCard.number];
-                Card *originalCard= [self.player4 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player4 getPlayerCardAtIndex:cardIndex]];
-                [self.player4 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence completion:^{
-                    [self checkWin];
-                    self.playsNowIndex=1;
-                    if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                        [self checkNewHand];
-                    else
-                        [self CPUPlays];
-                }];
-                break;
-            }
-            default:
-                break;
-        }
-    }
-    else
-    {
-        switch (self.playsNowIndex)
-        {
-            case 2:
-            {
-                Card *originalCard= [self.player2 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player2 getPlayerCardAtIndex:cardIndex]];
-                [self.player2 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence completion:^{
-                    if(self.numOfPlayers==2)
-                    {
-                        self.playsNowIndex=1;
-                        if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                            [self checkNewHand];
-                    }
-                    else
-                    {
-                        self.playsNowIndex++;
-                        if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                            [self checkNewHand];
-                        else
-                            [self CPUPlays];
-                    }
-                }];
-                break;
-            }
-            case 3:
-            {
-                Card *originalCard= [self.player3 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player3 getPlayerCardAtIndex:cardIndex]];
-                [self.player3 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence completion:^{
-                    self.playsNowIndex++;
-                    if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                        [self checkNewHand];
-                    else
-                        [self CPUPlays];
-                }];
-                break;
-            }
-            case 4:
-            {
-                Card *originalCard= [self.player4 getPlayerCardAtIndex:cardIndex];
-                Card *cardToBeDroped = (Card *) [self childNodeWithName:originalCard.name];
-                [cardToBeDroped setTexture:[SKTexture textureWithImage:[UIImage imageNamed:[self.imageForCardNameDict objectForKey:cardToBeDroped.name]]]];
-                [cardToBeDroped setZPosition:[self.gameDeck getCenterCardPileCount]];
-                [cardToBeDroped setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-                [self.gameDeck addToCenterCardPileCard:[self.player4 getPlayerCardAtIndex:cardIndex]];
-                [self.player4 removePlayerCardAtIndex:cardIndex];
-                SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
-                SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
-                SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
-                [cardToBeDroped runAction:sequence];
-                self.playsNowIndex=1;
-                if([self.player1 getPlayerCardListCount]==0 && [self.player2 getPlayerCardListCount]==0 && [self.player3 getPlayerCardListCount]==0 && [self.player4 getPlayerCardListCount]==0)
-                    [self checkNewHand];
-                break;
-            }
-            default:
-                break;
-        }
-    }
-
+    Card *nodeCard = [self.gameHandler CPUPlayWithDeck:self.gameDeck];
+    [nodeCard setTexture:[nodeCard getCardTexture]];
+    [nodeCard setZPosition:[self.gameDeck getCenterCardPileCount]];
+    [nodeCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
+    SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
+    SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
+    SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
+    [nodeCard runAction:sequence completion:^{
+        [self.gameHandler checkWinWithDeck:self.gameDeck];
+        [self.gameHandler endTurn : self.gameDeck];
+    }];
 }
 
--(void) checkWin
+-(void) dealToPlayer1 : (GameMode) aGameMode dealtCard : (Card *) dealtCard numOfCards : (NSInteger) numOfCards
 {
-    if([self.gameDeck getCenterCardPileCount]<2)
-        return;
+    SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [dealtCard setPosition:deck.position];
+    [dealtCard setFocused:NO];
+    [dealtCard setZPosition:(CGFloat)numOfCards];
+    [dealtCard setScale:0.8];
+    [self addChild:dealtCard];
+    SKAction *moveAction;
     
-    Card *topCard = [self.gameDeck getCenterCardPileTopCard];
-    Card *secondTopCard = [self.gameDeck getCenterCardPileSecondTopCard];
-    
-    if(topCard.number==11 || topCard.number==secondTopCard.number)//wins hand
-    {
-//        NSLog(@"win %d vs %d",topCard.number,secondTopCard.number);
-        SKAction *moveToPlayer;
-        if(self.playsNowIndex==1)//player down
-            moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 0-self.view.frame.size.height)  duration:0.5];
-        else if(self.playsNowIndex==2)//CPU left OR up
-            if(self.numOfPlayers==4)
-                moveToPlayer =[SKAction moveTo:CGPointMake(0-self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
-            else
-                moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 2*self.view.frame.size.height)  duration:0.5];
-        else if(self.playsNowIndex==3)//up
-            moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 2*self.view.frame.size.height)  duration:0.5];
-        else//right
-            moveToPlayer =[SKAction moveTo:CGPointMake(2*self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
+    if(aGameMode == TwoPlayerMode) {
+        moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/5 + numOfCards*35, 0) duration:0.2];
         
-        while ([self.gameDeck getCenterCardPileCount]!=0)
-        {
-            Card *aCard = [self.gameDeck getCenterCardPileBottomCard];
-            [[self childNodeWithName:aCard.name] runAction:moveToPlayer];
-            if(self.playsNowIndex==1)//player wins hand
-                [self.player1 addToPlayerGatheredCards:aCard];
-            else if(self.playsNowIndex==2)
-                [self.player2 addToPlayerGatheredCards:aCard];
-            else if(self.playsNowIndex==3)
-                [self.player3 addToPlayerGatheredCards:aCard];
-            else
-                [self.player4 addToPlayerGatheredCards:aCard];
-            [self.gameDeck removeCenterCardPileBottomCard];
-        }
+    } else {
+        moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/4+numOfCards*35, dealtCard.frame.size.height/2) duration:0.2];
     }
+    [dealtCard runAction:moveAction];
 }
 
--(void) dealCards2Players
+-(void) dealToPlayer2 : (GameMode) aGameMode dealtCard : (Card *) dealtCard numOfCards : (NSInteger) numOfCards
 {
-    self.cardCounter++;
-    if(self.cardCounter<=12)
-    {
-        SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
-        
-        switch (self.playsNowIndex) {
-            case 1:
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setPosition:deck.position];
-                [newCard setFocused:NO];
-                [newCard setZPosition:(CGFloat)[self.player1 getPlayerCardListCount]];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [self.player1 addToPlayerCards:newCard];
-//                [self.deck removeObjectAtIndex:0];
-                SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/5+[self.player1 getPlayerCardListCount]*35, 0) duration:0.2];
-                [newCard runAction:moveAction];
-                self.playsNowIndex++;
-                break;
-            }
-            case 2:
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
-                [newCard setPosition:deck.position];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [newCard setZPosition:(CGFloat)[self.player2 getPlayerCardListCount]];
-                [newCard setFocused:NO];
-                [self.player2 addToPlayerCards:newCard];
-//                [self.deck removeObjectAtIndex:0];
-                SKAction *moveAction2 = [SKAction moveTo:CGPointMake(self.view.frame.size.width/5+[self.player2 getPlayerCardListCount]*35, self.view.frame.size.height) duration:0.2];
-                [newCard runAction:moveAction2];
-                self.playsNowIndex=1;
-                break;
-            }
-            default:
-                break;
-        }
-    }
-    else if(self.cardCounter>12 && self.cardCounter<=16 && self.gameStart)
-    {
-        Card *centerCard=[self.gameDeck getTopCard];
-        SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
-        [centerCard setPosition:deck.position];
-        [centerCard setFocused:NO];
-        [centerCard setScale:0.8];
-        //[centerCard setLightingBitMask:1];
-        [self addChild:centerCard];
-        [self.gameDeck addToCenterCardPileCard:[self.gameDeck getTopCard]];
-        [centerCard setZPosition:[self.gameDeck getCenterCardPileCount]];
-        [centerCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-        SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) duration:0.2];
-        [centerCard runAction:moveAction];
-    }
-    else
-    {
-        self.startNewHand=NO;
-        [self.aTimer invalidate];
-    }
+    SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [dealtCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
+    [dealtCard setPosition:deck.position];
+    [dealtCard setScale:0.8];
+    [self addChild:dealtCard];
+    [dealtCard setZPosition:(CGFloat)numOfCards];
+    [dealtCard setZRotation:M_PI/2];
+    [dealtCard setFocused:NO];
+    SKAction *moveAction;
     
-    if(self.cardCounter==16 && self.gameStart)
-        self.gameStart=false;
-    if([self.gameDeck getDeckCount]==0)
-        [self removeChildrenInArray:@[[self childNodeWithName:@"deckCard"]]];
-}
-
--(void) dealCards4Players
-{
-    self.cardCounter++;
-    NSLog(@"card counter %d",self.cardCounter);
-    if(self.cardCounter<=24)
-    {
-        SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    if(aGameMode == TwoPlayerMode) {
+        moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/5+numOfCards*35, self.view.frame.size.height) duration:0.2];
         
-        switch (self.playsNowIndex)
-        {
-            case 1://down
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setPosition:deck.position];
-                [newCard setFocused:NO];
-                [newCard setZPosition:(CGFloat)[self.player1 getPlayerCardListCount]];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [self.player1 addToPlayerCards:newCard];
-                SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/4+[self.player1 getPlayerCardListCount]*35, newCard.frame.size.height/2) duration:0.2];
-                [newCard runAction:moveAction];
-                self.playsNowIndex++;
-                break;
-            }
-            case 2://left
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
-                [newCard setPosition:deck.position];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [newCard setZPosition:(CGFloat)[self.player2 getPlayerCardListCount]];
-                [newCard setZRotation:M_PI/2];
-                [newCard setFocused:NO];
-                [self.player2 addToPlayerCards:newCard];
-                SKAction *moveAction2 = [SKAction moveTo:CGPointMake(self.view.frame.size.width/12, (self.view.frame.size.height)/5+[self.player2 getPlayerCardListCount]*20) duration:0.2];
-                [newCard runAction:moveAction2];
-                self.playsNowIndex++;
-                break;
-            }
-            case 3://up
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
-                [newCard setPosition:deck.position];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [newCard setZPosition:(CGFloat)[self.player3 getPlayerCardListCount]];
-                [newCard setFocused:NO];
-                [self.player3 addToPlayerCards:newCard];
-                SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/3.5+[self.player3 getPlayerCardListCount]*20, (6.5*self.view.frame.size.height)/8) duration:0.2];
-                [newCard runAction:moveAction];
-                self.playsNowIndex++;
-                break;
-            }
-            case 4://right
-            {
-                Card *newCard= [self.gameDeck getTopCard];
-                [newCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
-                [newCard setPosition:deck.position];
-                [newCard setZRotation:M_PI/2];
-                [newCard setScale:0.8];
-                //[newCard setLightingBitMask:1];
-                [self addChild:newCard];
-                [newCard setZPosition:(CGFloat)[self.player4 getPlayerCardListCount]];
-                [newCard setFocused:NO];
-                [self.player4 addToPlayerCards:newCard];
-                SKAction *moveAction = [SKAction moveTo:CGPointMake((7*self.view.frame.size.width)/8, (6*self.view.frame.size.height)/8-[self.player4 getPlayerCardListCount]*20) duration:0.2];
-                [newCard runAction:moveAction];
-                self.playsNowIndex=1;
-                break;
-            }
-            default:
-                break;
-        }
+    } else {
+        moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/12, (self.view.frame.size.height)/5+numOfCards*20) duration:0.2];
+        
     }
-    else if(self.cardCounter>24 && self.cardCounter<=28 && self.gameStart)
-    {
-        Card *centerCard = [self.gameDeck getTopCard];
-        SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
-        [centerCard setPosition:deck.position];
-        [centerCard setFocused:NO];
-        [centerCard setScale:0.8];
-        //[centerCard setLightingBitMask:1];
-        [self addChild:centerCard];
-        [self.gameDeck addToCenterCardPileCard:centerCard];
-        [centerCard setZPosition:[self.gameDeck getCenterCardPileCount]];
-        [centerCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
-        SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) duration:0.2];
-        [centerCard runAction:moveAction];
-    }
-    else
-    {
-        NSLog(@"invalidate timer");
-        self.startNewHand=NO;
-        [self.aTimer invalidate];
-    }
-    
-    if(self.cardCounter==28 && self.gameStart)
-        self.gameStart=false;
-    if([self.gameDeck getDeckCount]==0)
-    {
-        NSLog(@"remove deck card");
-        @try {
-            [self removeChildrenInArray:@[[self childNodeWithName:@"deckCard"]]];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"deck card exception %@",[exception description]);
-        }
+    [dealtCard runAction:moveAction];
+}
 
-        NSLog(@"deck card removed");
+-(void) dealToPlayer3 : (GameMode) aGameMode dealtCard : (Card *) dealtCard numOfCards : (NSInteger) numOfCards
+{
+    SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [dealtCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
+    [dealtCard setPosition:deck.position];
+    [dealtCard setScale:0.8];
+    [self addChild:dealtCard];
+    [dealtCard setZPosition:(CGFloat)numOfCards];
+    [dealtCard setFocused:NO];
+    SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/3.5+numOfCards*20, (6.5*self.view.frame.size.height)/8) duration:0.2];
+    [dealtCard runAction:moveAction];
+}
+
+-(void) dealToPlayer4 : (GameMode) aGameMode dealtCard : (Card *) dealtCard numOfCards : (NSInteger) numOfCards
+{
+    SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [dealtCard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"b1fv.png"]]];
+    [dealtCard setPosition:deck.position];
+    [dealtCard setZRotation:M_PI/2];
+    [dealtCard setScale:0.8];
+    [self addChild:dealtCard];
+    [dealtCard setZPosition:(CGFloat)numOfCards];
+    [dealtCard setFocused:NO];
+    SKAction *moveAction = [SKAction moveTo:CGPointMake((7*self.view.frame.size.width)/8, (6*self.view.frame.size.height)/8-numOfCards*20) duration:0.2];
+    [dealtCard runAction:moveAction];
+}
+
+-(void) dealMiddle    : (GameMode) aGameMode dealtCard : (Card *) dealtCard
+{
+    SKSpriteNode *deck =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [dealtCard setPosition:deck.position];
+    [dealtCard setFocused:NO];
+    [dealtCard setScale:0.8];
+    [self addChild:dealtCard];
+    [dealtCard setZPosition:(CGFloat)[self.gameDeck getCenterCardPileCount]];
+    [dealtCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
+    SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) duration:0.2];
+    [dealtCard runAction:moveAction];
+}
+
+-(void) player1GathersCards : (GameMode) aGameMode
+{
+    SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 0-self.view.frame.size.height)  duration:0.5];
+    [self commonGatherBlockWithAction:moveToPlayer];
+}
+
+-(void) player2GathersCards : (GameMode) aGameMode
+{
+    SKAction *moveToPlayer;
+    if(aGameMode == TwoPlayerMode) {
+        moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 2*self.view.frame.size.height)  duration:0.5];
+    } else {
+        moveToPlayer =[SKAction moveTo:CGPointMake(0-self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
+    }
+    [self commonGatherBlockWithAction:moveToPlayer];
+}
+
+-(void) player3GathersCards : (GameMode) aGameMode
+{
+    SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 2*self.view.frame.size.height)  duration:0.5];
+    [self commonGatherBlockWithAction:moveToPlayer];
+}
+
+-(void) player4GathersCards : (GameMode) aGameMode
+{
+    SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(2*self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
+    [self commonGatherBlockWithAction:moveToPlayer];
+}
+
+-(void) commonGatherBlockWithAction : (SKAction *) anAction
+{
+    while ([self.gameDeck getCenterCardPileCount]!=0)
+    {
+        Card *aCard = [self.gameDeck getCenterCardPileBottomCard];
+        [[self childNodeWithName:aCard.name] runAction:anAction];
+        [self.gameHandler addCardFromPileToPlayer:aCard];
+        [self.gameDeck removeCenterCardPileBottomCard];
     }
 }
 
--(void) checkNewHand
+-(void) removeLastCardOnDeck
 {
-    NSLog(@"start dealing");
-    if([self.gameDeck getDeckCount]!=0)
-    {
-        self.cardCounter=0;
-        if(self.numOfPlayers==2)
-            self.aTimer=[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCards2Players) userInfo:nil repeats:YES];
-        else
-            self.aTimer=[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCards4Players) userInfo:nil repeats:YES];
-        self.startNewHand=YES;
-    }
-    else
-    {
-        NSLog(@"end game");
-    }
+    [self removeChildrenInArray:@[[self childNodeWithName:@"deckCard"]]];
 }
 
 -(void)update:(CFTimeInterval)currentTime

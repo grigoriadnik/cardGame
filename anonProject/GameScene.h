@@ -9,8 +9,9 @@
 #import <SpriteKit/SpriteKit.h>
 #import "Deck.h"
 #import "Player.h"
+#import "GameHandler.h"
 
-@interface GameScene : SKScene
+@interface GameScene : SKScene < GameHandlerDelegate >
 
 @property Deck *gameDeck;
 
@@ -20,12 +21,7 @@
 @property int playsNowIndex;//1- player, 2- CPU, 3- CPU, 4- CPU
 @property int numOfPlayers;
 @property BOOL startNewHand;
-
-@property Player *player1;
-@property Player *player2;
-@property Player *player3;
-@property Player *player4
-;
+@property GameHandler *gameHandler;
 @property NSMutableDictionary *imageForCardNameDict;
 
 @end
