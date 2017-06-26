@@ -18,8 +18,8 @@
 {
     SKSpriteNode *sprite2 =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
     
-    teamAScoreLabel = (SKLabelNode*)[self childNodeWithName:@"team1score"];
-    teamBScoreLabel = (SKLabelNode*)[self childNodeWithName:@"team2score"];
+    teamAScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team1score"];
+    teamBScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team2score"];
     
     if(self.numOfPlayers==2)
     {

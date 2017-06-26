@@ -31,7 +31,7 @@
         else if(i/13==1)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"h%d.png",i%13+1]];
-            pointsWorth = ((i==11 || i==1)?1:0);
+            pointsWorth = ((i%13==11 || i%13==1)?1:0);
             [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
@@ -39,8 +39,8 @@
         else if(i/13==2)
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"c%d.png",i%13+1]];
-            pointsWorth = ((i==11 || i==1)?1:0);
-            pointsWorth = ((i==2)?2:pointsWorth);
+            pointsWorth = ((i%13==11 || i%13==1)?1:0);
+            pointsWorth = ((i%13==2)?2:pointsWorth);
             [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
@@ -48,8 +48,8 @@
         else
         {
             Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"d%d.png",i%13+1]];
-            pointsWorth = ((i==11 || i==1)?1:0);
-            pointsWorth = ((i==10)?3:pointsWorth);
+            pointsWorth = ((i%13==11 || i%13==1)?1:0);
+            pointsWorth = ((i%13==10)?3:pointsWorth);
             [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }

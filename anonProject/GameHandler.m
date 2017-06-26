@@ -132,6 +132,14 @@
     
     if(topCard.number==11 || topCard.number==secondTopCard.number)//wins hand
     {
+        if([self.gameDeck getCenterCardPileCount] == 2){//kseri
+            Player *aPlayer = [self.players objectAtIndex:self.currentPlayerIndex % [self numOfPlayers]];
+            if(topCard.number == 1) {
+                aPlayer.kseres +=2;
+            } else {
+                aPlayer.kseres++;
+            }
+        }
         switch (self.currentPlayerIndex % [self numOfPlayers]) {
             case 0:
                 [self.gameHandlerDelegate player1GathersCards:self.gameMode];
@@ -230,16 +238,34 @@
 -(void) countPoints
 {
     NSInteger pointsCount = 0;
+    NSInteger teamAtotalCards = 0;
+    NSInteger teamBtotalCards = 0;
     for (Player *aPlayer in self.players) {
         pointsCount = 0;
+        pointsCount = 10 * aPlayer.kseres;
         for (Card *aCard in aPlayer.playerGatheredCardList) {
             pointsCount += aCard.pointsWorth;
         }
         if(aPlayer.team == TeamA) {
+            teamAtotalCards += [aPlayer getPlayerGatheredCardListCount];
             self.teamAPoints += pointsCount;
         } else {
+            teamBtotalCards += [aPlayer getPlayerGatheredCardListCount];
             self.teamBPoints += pointsCount;
         }
+    }
+    
+    if(teamAtotalCards > teamBtotalCards) {
+        self.teamAPoints += 3;
+    } else if(teamAtotalCards < teamBtotalCards){
+        self.teamBPoints += 3;
+    }
+    
+    //double the points
+    if(teamAtotalCards == 0) {
+        self.teamBPoints = self.teamBPoints * 2;
+    } else if(teamBtotalCards == 0) {
+        self.teamAPoints = self.teamAPoints * 2;
     }
 }
 

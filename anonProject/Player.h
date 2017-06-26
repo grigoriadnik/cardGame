@@ -18,6 +18,7 @@
 @property BOOL isCPU;
 @property BOOL isUser;
 @property PlayerTeam team;
+@property NSInteger kseres;
 
 +(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser team : (PlayerTeam) team;
 

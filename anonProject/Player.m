@@ -19,6 +19,7 @@
     newPlayer.playerIndex = index;
     newPlayer.isUser = isUser;
     newPlayer.team = team;
+    newPlayer.kseres = 0;
     
     return newPlayer;
 }
@@ -79,6 +80,7 @@
 {
     self.playerGatheredCardList = [[NSMutableArray alloc] init];
     self.playerCardList = [[NSMutableArray alloc] init];
+    self.kseres = 0;
 }
 
 @end
