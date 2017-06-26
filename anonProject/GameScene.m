@@ -13,21 +13,32 @@
 
 @synthesize teamAScoreLabel;
 @synthesize teamBScoreLabel;
+@synthesize deckCardNode;
+@synthesize player1Label;
+@synthesize player2Label;
+@synthesize player3Label;
+@synthesize player4Label;
 
 -(void)didMoveToView:(SKView *)view
 {
-    SKSpriteNode *sprite2 =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    deckCardNode = (SKSpriteNode *) [self childNodeWithName:@"deckCard"];
     
     teamAScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team1score"];
     teamBScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team2score"];
+   
+    player1Label = (SKLabelNode*)[self childNodeWithName:@"player1Label"];
+    player2Label = (SKLabelNode*)[self childNodeWithName:@"player2Label"];
+    player3Label = (SKLabelNode*)[self childNodeWithName:@"player3Label"];
+    player4Label = (SKLabelNode*)[self childNodeWithName:@"player4Label"];
+    
+    [player1Label setText:@"MorrisSan"];
+    [player2Label setText:@"CPU1"];
+    [player3Label setText:@"CPU2"];
+    [player4Label setText:@"CPU3"];
     
     if(self.numOfPlayers==2)
     {
-        SKLabelNode *player1Label=(SKLabelNode *)[self childNodeWithName:@"player1Label"];
-        [player1Label setText:@"Morris_San"];
         [player1Label setPosition:CGPointMake(self.view.frame.size.width/5, [self childNodeWithName:@"deckCard"].frame.size.height)];
-        SKLabelNode *player2Label=(SKLabelNode *)[self childNodeWithName:@"player2Label"];
-        [player2Label setText:@"CPU"];
         [player2Label setPosition:CGPointMake(self.view.frame.size.width/5, self.view.frame.size.height-[self childNodeWithName:@"deckCard"].frame.size.height)];
         
         [[self childNodeWithName:@"player3Label"] setHidden:YES];
@@ -54,15 +65,8 @@
     
     SKLightNode *light1 = (SKLightNode *)[self childNodeWithName:@"light1"];
     [light1 setPosition:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)];
+    [deckCardNode setPosition:CGPointMake(self.view.frame.size.width/2+100, self.view.frame.size.height/2)];
     
-    self.cardCounter=0;
-    self.startNewHand=NO;
-    
-    [sprite2 setPosition:CGPointMake(self.view.frame.size.width/2+100, self.view.frame.size.height/2)];
-    
-    self.imageForCardNameDict=[[NSMutableDictionary alloc] init];
-    self.gameStart=YES;
-    self.playsNowIndex=1;
     self.gameHandler = [GameHandler initGameWithNumberOfPlayers:self.numOfPlayers listener:self];
 }
 
@@ -158,7 +162,6 @@
     [dealtCard setScale:0.8];
     [self addChild:dealtCard];
     [dealtCard setZPosition:(CGFloat)numOfCards];
-    [dealtCard setZRotation:M_PI/2];
     [dealtCard setFocused:NO];
     SKAction *moveAction;
     
@@ -166,6 +169,7 @@
         moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/5+numOfCards*35, self.view.frame.size.height) duration:0.2];
         
     } else {
+        [dealtCard setZRotation:M_PI/2];
         moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/12, (self.view.frame.size.height)/5+numOfCards*20) duration:0.2];
         
     }
@@ -254,12 +258,12 @@
 
 -(void) removeLastCardOnDeck
 {
-    [self removeChildrenInArray:@[[self childNodeWithName:@"deckCard"]]];
+    [deckCardNode setHidden:YES];
 }
 
 -(void) prepareUIForNewRound
 {
-    [[self childNodeWithName:@"deckCard"] setPosition:CGPointMake(self.view.frame.size.width/2+100, self.view.frame.size.height/2)];
+    [deckCardNode setHidden:NO];
 }
 
 -(void) setTeamAScore : (NSInteger) teamAscore teamBScore : (NSInteger) teamBscore

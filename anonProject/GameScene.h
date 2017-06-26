@@ -13,16 +13,15 @@
 
 @interface GameScene : SKScene < GameHandlerDelegate >
 
-@property NSTimer *aTimer;
-@property int cardCounter;
-@property BOOL gameStart;
-@property int playsNowIndex;//1- player, 2- CPU, 3- CPU, 4- CPU
 @property int numOfPlayers;
-@property BOOL startNewHand;
 @property GameHandler *gameHandler;
-@property NSMutableDictionary *imageForCardNameDict;
 
 @property (nonatomic,strong) SKLabelNode *teamAScoreLabel;
 @property (nonatomic,strong) SKLabelNode *teamBScoreLabel;
+@property (nonatomic,strong) SKLabelNode *player1Label;
+@property (nonatomic,strong) SKLabelNode *player2Label;
+@property (nonatomic,strong) SKLabelNode *player3Label;
+@property (nonatomic,strong) SKLabelNode *player4Label;
+@property (nonatomic,strong) SKSpriteNode *deckCardNode;
 
 @end

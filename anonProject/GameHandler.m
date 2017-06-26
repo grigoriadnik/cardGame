@@ -130,9 +130,9 @@
     Card *topCard = [self.gameDeck getCenterCardPileTopCard];
     Card *secondTopCard = [self.gameDeck getCenterCardPileSecondTopCard];
     
-    if(topCard.number==11 || topCard.number==secondTopCard.number)//wins hand
+    if(topCard.number==11 || topCard.number==secondTopCard.number || [self lastHandPlayed])//wins hand
     {
-        if([self.gameDeck getCenterCardPileCount] == 2){//kseri
+        if([self.gameDeck getCenterCardPileCount] == 2 && topCard.number == secondTopCard.number){//kseri
             Player *aPlayer = [self.players objectAtIndex:self.currentPlayerIndex % [self numOfPlayers]];
             if(topCard.number == 1) {
                 aPlayer.kseres +=2;
@@ -193,6 +193,13 @@
         if([aPlayer getPlayerCardListCount] > 0){
             return YES;
         }
+    }
+    return NO;
+}
+
+-(BOOL) lastHandPlayed {
+    if(![self checkIfAnyPlayerHasCardsOnHand] && [self.gameDeck.cards count] ==0) {
+        return YES;
     }
     return NO;
 }
@@ -292,6 +299,7 @@
     for (Player *aPlayer in self.players) {
         [aPlayer preparePlayerForNewRound];
     }
+    self.gameStart = YES;
     self.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCardsWithDeck:) userInfo:self.gameDeck repeats:YES];
 }
 
