@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, PlayerTeam) {
+    NoTeam,
+    TeamA,
+    TeamB
+};
+
 @interface Utils : NSObject
 
 + (int)getRandomNumberBetween:(NSInteger)from to:(NSInteger)to;

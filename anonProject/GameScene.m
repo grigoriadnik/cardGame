@@ -11,10 +11,15 @@
 
 @implementation GameScene
 
+@synthesize teamAScoreLabel;
+@synthesize teamBScoreLabel;
 
 -(void)didMoveToView:(SKView *)view
 {
     SKSpriteNode *sprite2 =(SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    
+    teamAScoreLabel = (SKLabelNode*)[self childNodeWithName:@"team1score"];
+    teamBScoreLabel = (SKLabelNode*)[self childNodeWithName:@"team2score"];
     
     if(self.numOfPlayers==2)
     {
@@ -32,6 +37,7 @@
     {
         
     }
+    [self setTeamAScore:0 teamBScore:0];
     
     SKSpriteNode *blackboard=(SKSpriteNode *)[self childNodeWithName:@"blackboard"];
     [blackboard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"blackboard2.jpg"]]];
@@ -57,8 +63,7 @@
     self.imageForCardNameDict=[[NSMutableDictionary alloc] init];
     self.gameStart=YES;
     self.playsNowIndex=1;
-    self.gameDeck = [Deck initDeck];
-    self.gameHandler = [GameHandler initGameWithNumberOfPlayers:self.numOfPlayers gameDeck:self.gameDeck listener:self];
+    self.gameHandler = [GameHandler initGameWithNumberOfPlayers:self.numOfPlayers listener:self];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -75,14 +80,14 @@
                     if(touchedCard.identifier == aCard.identifier) {
                         touchedCard.focused=NO;
                         aCard.focused=NO;
-                        [touchedCard setZPosition:[self.gameDeck getCenterCardPileCount]];
+                        [touchedCard setZPosition:[self.gameHandler getCenterCardPileCount]];
                         [touchedCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
                         SKAction *dropCard =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
                         [touchedCard runAction:dropCard completion:^{
                             [user removePlayerCardAtIndex:i];
-                            [self.gameDeck addToCenterCardPileCard:aCard];
-                            [self.gameHandler checkWinWithDeck:self.gameDeck];
-                            [self.gameHandler endTurn : self.gameDeck];
+                            [self.gameHandler addToCenterCardPile:aCard];
+                            [self.gameHandler checkWin];
+                            [self.gameHandler endTurn];
                         }];
                         break;
                     }
@@ -113,16 +118,16 @@
 
 -(void) CPUPlays
 {
-    Card *nodeCard = [self.gameHandler CPUPlayWithDeck:self.gameDeck];
+    Card *nodeCard = [self.gameHandler CPUPlay];
     [nodeCard setTexture:[nodeCard getCardTexture]];
-    [nodeCard setZPosition:[self.gameDeck getCenterCardPileCount]];
+    [nodeCard setZPosition:[self.gameHandler getCenterCardPileCount]];
     [nodeCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
     SKAction *CPUDrops =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
     SKAction *CPUDropsWait =[SKAction waitForDuration:0.5];
     SKAction *sequence=[SKAction sequence:@[CPUDrops,CPUDropsWait]];
     [nodeCard runAction:sequence completion:^{
-        [self.gameHandler checkWinWithDeck:self.gameDeck];
-        [self.gameHandler endTurn : self.gameDeck];
+        [self.gameHandler checkWin];
+        [self.gameHandler endTurn];
     }];
 }
 
@@ -201,7 +206,7 @@
     [dealtCard setFocused:NO];
     [dealtCard setScale:0.8];
     [self addChild:dealtCard];
-    [dealtCard setZPosition:(CGFloat)[self.gameDeck getCenterCardPileCount]];
+    [dealtCard setZPosition:(CGFloat)[self.gameHandler getCenterCardPileCount]];
     [dealtCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
     SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2) duration:0.2];
     [dealtCard runAction:moveAction];
@@ -238,18 +243,29 @@
 
 -(void) commonGatherBlockWithAction : (SKAction *) anAction
 {
-    while ([self.gameDeck getCenterCardPileCount]!=0)
+    while ([self.gameHandler getCenterCardPileCount]!=0)
     {
-        Card *aCard = [self.gameDeck getCenterCardPileBottomCard];
+        Card *aCard = [self.gameHandler getCenterCardPileBottomCard];
         [[self childNodeWithName:aCard.name] runAction:anAction];
         [self.gameHandler addCardFromPileToPlayer:aCard];
-        [self.gameDeck removeCenterCardPileBottomCard];
+        [self.gameHandler removeCenterCardPileBottomCard];
     }
 }
 
 -(void) removeLastCardOnDeck
 {
     [self removeChildrenInArray:@[[self childNodeWithName:@"deckCard"]]];
+}
+
+-(void) prepareUIForNewRound
+{
+    [[self childNodeWithName:@"deckCard"] setPosition:CGPointMake(self.view.frame.size.width/2+100, self.view.frame.size.height/2)];
+}
+
+-(void) setTeamAScore : (NSInteger) teamAscore teamBScore : (NSInteger) teamBscore
+{
+    [self.teamAScoreLabel setText:[NSString stringWithFormat:@"%ld",(long)teamAscore]];
+    [self.teamBScoreLabel setText:[NSString stringWithFormat:@"%ld",(long)teamBscore]];
 }
 
 -(void)update:(CFTimeInterval)currentTime

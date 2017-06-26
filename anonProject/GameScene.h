@@ -13,8 +13,6 @@
 
 @interface GameScene : SKScene < GameHandlerDelegate >
 
-@property Deck *gameDeck;
-
 @property NSTimer *aTimer;
 @property int cardCounter;
 @property BOOL gameStart;
@@ -23,5 +21,8 @@
 @property BOOL startNewHand;
 @property GameHandler *gameHandler;
 @property NSMutableDictionary *imageForCardNameDict;
+
+@property (nonatomic,strong) SKLabelNode *teamAScoreLabel;
+@property (nonatomic,strong) SKLabelNode *teamBScoreLabel;
 
 @end

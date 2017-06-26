@@ -10,33 +10,37 @@
 
 #define NumberOfCardsFullHand 6
 #define NumberOfCardsCentePile 4
+#define PointsToEndGame 255
 
 @implementation GameHandler
 
 #pragma mark -
 #pragma mark Constructor
 
-+(GameHandler *) initGameWithNumberOfPlayers : (NSInteger) numOfPlayers gameDeck : (Deck *) gameDeck listener : (UIViewController<GameHandlerDelegate>*) listener
++(GameHandler *) initGameWithNumberOfPlayers : (NSInteger) numOfPlayers listener : (SKScene<GameHandlerDelegate>*) listener
 {
     GameHandler *newGameHandler = [GameHandler alloc];
     newGameHandler.players = [[NSMutableArray alloc] init];
     newGameHandler.currentPlayerIndex = 0;
     newGameHandler.gameMode = (numOfPlayers == 4) ? FourPlayerMode : TwoPlayerMode;
     newGameHandler.gameHandlerDelegate = listener;
+    newGameHandler.teamAPoints = 0;
+    newGameHandler.teamBPoints = 0;
+    newGameHandler.gameDeck = [Deck initDeck];
     
     for(int i = 0 ; i < numOfPlayers ; i++) {
-        [newGameHandler.players addObject:[Player initPlayerisCpu:((i == 0) ? NO : YES) withIndex:i isUser:((i == 0) ? YES : NO)]];
+        [newGameHandler.players addObject:[Player initPlayerisCpu:((i == 0) ? NO : YES) withIndex:i isUser:((i == 0) ? YES : NO) team:((i == 0 || i==2) ? TeamA : TeamB)]];
     }
     
     newGameHandler.gameStart = YES;
-    newGameHandler.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:newGameHandler selector:@selector(dealCardsWithDeck:) userInfo:gameDeck repeats:YES];
+    newGameHandler.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:newGameHandler selector:@selector(dealCardsWithDeck:) userInfo:newGameHandler.gameDeck repeats:YES];
     return newGameHandler;
 }
 
 #pragma mark -
 #pragma mark CPU Play Logic
 
--(Card *) CPUPlayWithDeck : (Deck *) gameDeck
+-(Card *) CPUPlay
 {
     Player *curPlayer = [self.players objectAtIndex:self.currentPlayerIndex%[self numOfPlayers]];
     if(![curPlayer isCPU])
@@ -44,18 +48,18 @@
     
     NSInteger cardIndex=0;
     Card *returnedCard;
-    if([gameDeck getCenterCardPileCount] != 0) {
+    if([self.gameDeck getCenterCardPileCount] != 0) {
         
-        Card *topCard=[gameDeck getCenterCardPileTopCard];
+        Card *topCard=[self.gameDeck getCenterCardPileTopCard];
         cardIndex = [curPlayer getIndexForCardNumber:topCard.number];
         returnedCard = [curPlayer getPlayerCardAtIndex:cardIndex];
-        [gameDeck addToCenterCardPileCard:[curPlayer getPlayerCardAtIndex:cardIndex]];
+        [self.gameDeck addToCenterCardPileCard:[curPlayer getPlayerCardAtIndex:cardIndex]];
         [curPlayer removePlayerCardAtIndex:cardIndex];
         
     } else {
         
         returnedCard= [curPlayer getPlayerCardAtIndex:cardIndex];
-        [gameDeck addToCenterCardPileCard:[curPlayer getPlayerCardAtIndex:cardIndex]];
+        [self.gameDeck addToCenterCardPileCard:[curPlayer getPlayerCardAtIndex:cardIndex]];
         [curPlayer removePlayerCardAtIndex:cardIndex];
         
     }
@@ -98,7 +102,7 @@
             }
             self.currentPlayerIndex++;
             
-        } else if([self centerPileIsDealtWithDeck:gameDeck] && self.gameStart) {
+        } else if([self centerPileIsDealt] && self.gameStart) {
             
             Card *newCard= [gameDeck getTopCard];
             [gameDeck addToCenterCardPileCard:newCard];
@@ -113,9 +117,9 @@
     }
 }
 
--(void) checkWinWithDeck : (Deck *) gameDeck
+-(void) checkWin
 {
-    if([gameDeck getCenterCardPileCount] < 2) {
+    if([self getCenterCardPileCount] < 2) {
          return;
     }
     
@@ -123,8 +127,8 @@
         return;
     }
     
-    Card *topCard = [gameDeck getCenterCardPileTopCard];
-    Card *secondTopCard = [gameDeck getCenterCardPileSecondTopCard];
+    Card *topCard = [self.gameDeck getCenterCardPileTopCard];
+    Card *secondTopCard = [self.gameDeck getCenterCardPileSecondTopCard];
     
     if(topCard.number==11 || topCard.number==secondTopCard.number)//wins hand
     {
@@ -150,9 +154,9 @@
 #pragma mark -
 #pragma mark Util Functions
 
--(BOOL) centerPileIsDealtWithDeck : (Deck *) gameDeck
+-(BOOL) centerPileIsDealt
 {
-    return [gameDeck getCenterCardPileCount] < 4;
+    return [self.gameDeck getCenterCardPileCount] < 4;
 }
 
 -(BOOL) allPlayersHaveFullHand
@@ -185,12 +189,17 @@
     return NO;
 }
 
--(void) newRoundOrEndGameWithDeck : (Deck *) gameDeck
+-(void) newRoundOrEndGameWithDeck
 {
-    if([gameDeck getDeckCount] == 0) {
-        NSLog(@"end game :)");
+    if([self.gameDeck getDeckCount] == 0) {
+        
+        [self.gameHandlerDelegate prepareUIForNewRound];
+        [self countPoints];
+        [self startNewRound];
+        [self.gameHandlerDelegate setTeamAScore:self.teamAPoints teamBScore:self.teamBPoints];
+        
     } else {
-        self.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCardsWithDeck:) userInfo:gameDeck repeats:YES];
+        self.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCardsWithDeck:) userInfo:self.gameDeck repeats:YES];
     }
 }
 
@@ -205,17 +214,79 @@
     [curPlayer addToPlayerGatheredCards:aCard];
 }
 
--(void) endTurn : (Deck *) gameDeck
+-(void) endTurn
 {
     self.currentPlayerIndex++;
     if(![self checkIfAnyPlayerHasCardsOnHand]) {
-        [self newRoundOrEndGameWithDeck:gameDeck];
+        [self newRoundOrEndGameWithDeck];
     } else {
         Player *aPlayer = [self.players objectAtIndex:self.currentPlayerIndex % [self numOfPlayers]];
         if(aPlayer.isCPU && self.gameHandlerDelegate!=nil) {
             [self.gameHandlerDelegate CPUPlays];
         }
     }
+}
+
+-(void) countPoints
+{
+    NSInteger pointsCount = 0;
+    for (Player *aPlayer in self.players) {
+        pointsCount = 0;
+        for (Card *aCard in aPlayer.playerGatheredCardList) {
+            pointsCount += aCard.pointsWorth;
+        }
+        if(aPlayer.team == TeamA) {
+            self.teamAPoints += pointsCount;
+        } else {
+            self.teamBPoints += pointsCount;
+        }
+    }
+}
+
+-(PlayerTeam) whichTeamWonTheGame
+{
+    if(self.teamAPoints > 255 && self.teamBPoints > 255) {
+        if(self.teamAPoints == self.teamBPoints) {
+            return NoTeam;
+        } else {
+            return ((self.teamAPoints > self.teamBPoints) ? TeamA : TeamB);
+        }
+    } else if (self.teamAPoints > 255) {
+        return TeamA;
+    } else if(self.teamBPoints > 255) {
+        return TeamB;
+    } else {
+        return NoTeam;
+    }
+}
+
+-(void) startNewRound
+{
+    self.gameDeck = [Deck initDeck];
+    for (Player *aPlayer in self.players) {
+        [aPlayer preparePlayerForNewRound];
+    }
+    self.dealer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(dealCardsWithDeck:) userInfo:self.gameDeck repeats:YES];
+}
+
+-(void) addToCenterCardPile : (Card *) aCard
+{
+    [self.gameDeck addToCenterCardPileCard:aCard];
+}
+
+-(NSInteger) getCenterCardPileCount
+{
+    return [self.gameDeck getCenterCardPileCount];
+}
+
+-(void) removeCenterCardPileBottomCard
+{
+    [self.gameDeck removeCenterCardPileBottomCard];
+}
+
+-(Card *) getCenterCardPileBottomCard
+{
+    return [self.gameDeck getCenterCardPileBottomCard];
 }
 
 @end

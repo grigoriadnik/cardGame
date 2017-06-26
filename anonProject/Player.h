@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Card.h"
+#import "Utils.h"
+
 @interface Player : NSObject
 
 @property NSMutableArray *playerCardList;
@@ -15,8 +17,9 @@
 @property NSInteger playerIndex;
 @property BOOL isCPU;
 @property BOOL isUser;
+@property PlayerTeam team;
 
-+(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser;
++(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser team : (PlayerTeam) team;
 
 -(NSInteger) getPlayerCardListCount;
 -(NSInteger) getPlayerGatheredCardListCount;
@@ -26,5 +29,6 @@
 -(void) addToPlayerGatheredCards : (Card *) aCard;
 -(void) addToPlayerCards : (Card *) aCard;
 -(NSInteger) getIndexForCardNumber : (NSInteger) cardNumber;
+-(void) preparePlayerForNewRound;
 
 @end

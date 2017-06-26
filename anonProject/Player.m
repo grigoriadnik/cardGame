@@ -10,7 +10,7 @@
 
 @implementation Player
 
-+(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser
++(Player *) initPlayerisCpu : (BOOL) isCPU withIndex : (NSInteger) index isUser : (BOOL) isUser team : (PlayerTeam) team
 {
     Player *newPlayer = [[Player alloc] init];
     newPlayer.playerCardList = [[NSMutableArray alloc] init];
@@ -18,6 +18,7 @@
     newPlayer.isCPU = isCPU;
     newPlayer.playerIndex = index;
     newPlayer.isUser = isUser;
+    newPlayer.team = team;
     
     return newPlayer;
 }
@@ -72,6 +73,12 @@
 -(void) addToPlayerCards : (Card *) aCard
 {
     [self.playerCardList addObject:aCard];
+}
+
+-(void) preparePlayerForNewRound
+{
+    self.playerGatheredCardList = [[NSMutableArray alloc] init];
+    self.playerCardList = [[NSMutableArray alloc] init];
 }
 
 @end

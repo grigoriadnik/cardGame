@@ -19,13 +19,21 @@
 @property (nonatomic, weak) id<GameHandlerDelegate> gameHandlerDelegate;
 @property NSTimer *dealer;
 @property BOOL gameStart;
+@property NSInteger teamAPoints;
+@property NSInteger teamBPoints;
+@property Deck *gameDeck;
 
-+(GameHandler *) initGameWithNumberOfPlayers : (NSInteger) numOfPlayers gameDeck : (Deck *) gameDeck listener : (SKScene<GameHandlerDelegate>*) listener;
--(Card *) CPUPlayWithDeck : (Deck *) gameDeck;
++(GameHandler *) initGameWithNumberOfPlayers : (NSInteger) numOfPlayers listener : (SKScene<GameHandlerDelegate>*) listener;
+-(Card *) CPUPlay;
 -(BOOL) checkIfAnyPlayerHasCardsOnHand;
 -(void) addCardFromPileToPlayer : (Card *) aCard;
 -(Player *) getUser;
--(void) checkWinWithDeck : (Deck *) gameDeck;
--(void) endTurn : (Deck *) gameDeck;
+-(void) checkWin;
+-(void) endTurn;
+-(void) countPoints;
+-(void) addToCenterCardPile : (Card *) card;
+-(NSInteger) getCenterCardPileCount;
+-(void) removeCenterCardPileBottomCard;
+-(Card *) getCenterCardPileBottomCard;
 
 @end

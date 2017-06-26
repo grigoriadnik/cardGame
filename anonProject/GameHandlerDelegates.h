@@ -29,6 +29,10 @@ typedef NS_ENUM(NSInteger, GameMode) {
 -(void) player4GathersCards : (GameMode) aGameMode;
 -(void) CPUPlays;
 
+
+-(void) prepareUIForNewRound;
+-(void) setTeamAScore : (NSInteger) teamAscore teamBScore : (NSInteger) teamBscore;
+
 @end
 
 #endif /* GameHandlerDelegates_h */
