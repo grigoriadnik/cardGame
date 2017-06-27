@@ -18,6 +18,7 @@
 @synthesize player2Label;
 @synthesize player3Label;
 @synthesize player4Label;
+@synthesize scoreLabel;
 
 -(void)didMoveToView:(SKView *)view
 {
@@ -30,6 +31,9 @@
     player2Label = (SKLabelNode*)[self childNodeWithName:@"player2Label"];
     player3Label = (SKLabelNode*)[self childNodeWithName:@"player3Label"];
     player4Label = (SKLabelNode*)[self childNodeWithName:@"player4Label"];
+    
+    scoreLabel = (SKLabelNode*)[self childNodeWithName:@"scoreLabel"];
+    [scoreLabel setHidden:YES];
     
     [player1Label setText:@"MorrisSan"];
     [player2Label setText:@"CPU1"];
@@ -219,7 +223,7 @@
 -(void) player1GathersCards : (GameMode) aGameMode
 {
     SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 0-self.view.frame.size.height)  duration:0.5];
-    [self commonGatherBlockWithAction:moveToPlayer];
+    [self commonGatherBlockWithAction:moveToPlayer:YES];
 }
 
 -(void) player2GathersCards : (GameMode) aGameMode
@@ -230,32 +234,68 @@
     } else {
         moveToPlayer =[SKAction moveTo:CGPointMake(0-self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
     }
-    [self commonGatherBlockWithAction:moveToPlayer];
+    [self commonGatherBlockWithAction:moveToPlayer:NO];
 }
 
 -(void) player3GathersCards : (GameMode) aGameMode
 {
     SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, 2*self.view.frame.size.height)  duration:0.5];
-    [self commonGatherBlockWithAction:moveToPlayer];
+    [self commonGatherBlockWithAction:moveToPlayer:YES];
 }
 
 -(void) player4GathersCards : (GameMode) aGameMode
 {
     SKAction *moveToPlayer =[SKAction moveTo:CGPointMake(2*self.view.frame.size.width, self.view.frame.size.height/2)  duration:0.5];
-    [self commonGatherBlockWithAction:moveToPlayer];
+    [self commonGatherBlockWithAction:moveToPlayer:NO];
 }
 
--(void) commonGatherBlockWithAction : (SKAction *) anAction
+-(void) commonGatherBlockWithAction : (SKAction *) anAction : (BOOL) isOwnTeam
 {
+    NSInteger pointsTemp = [self calcPointsTemp:self.gameHandler.gameDeck.centerCardPileList];
+    if(pointsTemp > 0){
+        [scoreLabel setText:[NSString stringWithFormat:@"+%ld Points",(long)pointsTemp]];
+        if(isOwnTeam) {
+            [scoreLabel setFontColor:[UIColor whiteColor]];
+        } else {
+            [scoreLabel setFontColor:[UIColor colorWithRed:200.0/255.0 green:50.0/255.0 blue:20.0/255.0 alpha:1.0]];
+        }
+        [scoreLabel setPosition:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)];
+        [scoreLabel setZPosition:100.0];
+        [scoreLabel setHidden:NO];
+        SKAction *moveAction = [SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2 + 50) duration:1.0];
+        [scoreLabel runAction:moveAction completion:^{
+            [scoreLabel setHidden:YES];
+        }];
+    }
+    
+    
     while ([self.gameHandler getCenterCardPileCount]!=0)
     {
         Card *aCard = [self.gameHandler getCenterCardPileBottomCard];
         [[self childNodeWithName:aCard.name] runAction:anAction completion:^{
+            
             [aCard removeFromParent];
         }];
         [self.gameHandler addCardFromPileToPlayer:aCard];
         [self.gameHandler removeCenterCardPileBottomCard];
     }
+}
+
+-(NSInteger) calcPointsTemp : (NSMutableArray *) cardArray
+{
+    NSInteger pointsTemp = 0;
+    for (Card *aCard in cardArray) {
+        pointsTemp += aCard.pointsWorth;
+    }
+    
+    if([cardArray count] == 2 ) {
+        Card *firstCard = [cardArray objectAtIndex:0];
+        Card *secondCard = [cardArray objectAtIndex:1];
+        if(firstCard.number == secondCard.number) {
+            pointsTemp += (firstCard.number == 11 && secondCard.number == 1)?20:10;
+        }
+    }
+    return pointsTemp;
 }
 
 -(void) removeLastCardOnDeck

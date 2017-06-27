@@ -151,7 +151,7 @@
     Card *topCard = [self.gameDeck getCenterCardPileTopCard];
     Card *secondTopCard = [self.gameDeck getCenterCardPileSecondTopCard];
     
-    if(topCard.number==11 || topCard.number==secondTopCard.number )//wins hand
+    if(topCard.number==10 || topCard.number==secondTopCard.number )//wins hand
     {
         if([self.gameDeck getCenterCardPileCount] == 2 && topCard.number == secondTopCard.number){//kseri
             Player *aPlayer = [self.players objectAtIndex:self.currentPlayerIndex % [self numOfPlayers]];

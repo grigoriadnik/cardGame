@@ -16,41 +16,42 @@
     newDeck.cards = [[NSMutableArray alloc] init];
     newDeck.centerCardPileList = [[NSMutableArray alloc] init];
     NSInteger pointsWorth;
-    
-    for(int i=0;i<52;i++)
+    NSInteger cardTextureIdentifier = 0;
+    for(NSInteger i=0;i<52;i++)
     {
+        cardTextureIdentifier = i%13 + 1;
         //spades
         if(i/13==0)
         {
-            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"s%d.png",i+1]];
-            pointsWorth = ((i==11 || i==1)?1:0);
-            [newCard initCardWithNumber:i+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"s%d.png",i+1] isFocused:NO cardIdentifier:i];
+            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"s%ld.png",cardTextureIdentifier]];
+            pointsWorth = ((i==10 || i==0)?1:0);
+            [newCard initCardWithNumber:i powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"s%ld.png",(long)cardTextureIdentifier] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //hearts
         else if(i/13==1)
         {
-            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"h%d.png",i%13+1]];
-            pointsWorth = ((i%13==11 || i%13==1)?1:0);
-            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"h%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"h%ld.png",cardTextureIdentifier]];
+            pointsWorth = ((i%13==10 || i%13==0)?1:0);
+            [newCard initCardWithNumber:i%13 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"h%ld.png",cardTextureIdentifier] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //clubs
         else if(i/13==2)
         {
-            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"c%d.png",i%13+1]];
-            pointsWorth = ((i%13==11 || i%13==1)?1:0);
-            pointsWorth = ((i%13==2)?2:pointsWorth);
-            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"c%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"c%ld.png",cardTextureIdentifier]];
+            pointsWorth = ((i%13==10 || i%13==0)?1:0);
+            pointsWorth = ((i%13==1)?2:pointsWorth);
+            [newCard initCardWithNumber:i%13 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"c%ld.png",cardTextureIdentifier] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
         //diamonds
         else
         {
-            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"d%d.png",i%13+1]];
-            pointsWorth = ((i%13==11 || i%13==1)?1:0);
-            pointsWorth = ((i%13==10)?3:pointsWorth);
-            [newCard initCardWithNumber:i%13+1 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"d%d.png",i%13+1] isFocused:NO cardIdentifier:i];
+            Card *newCard=[Card spriteNodeWithImageNamed:[NSString stringWithFormat:@"d%ld.png",cardTextureIdentifier]];
+            pointsWorth = ((i%13==10 || i%13==0)?1:0);
+            pointsWorth = ((i%13==9)?3:pointsWorth);
+            [newCard initCardWithNumber:i%13 powerType:((i/13==1)?2:1) pointsWorth:pointsWorth cardImageString:[NSString stringWithFormat:@"d%ld.png",cardTextureIdentifier] isFocused:NO cardIdentifier:i];
             [newDeck.cards addObject:newCard];
         }
     }

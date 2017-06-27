@@ -23,5 +23,6 @@
 @property (nonatomic,strong) SKLabelNode *player3Label;
 @property (nonatomic,strong) SKLabelNode *player4Label;
 @property (nonatomic,strong) SKSpriteNode *deckCardNode;
+@property (nonatomic,strong) SKLabelNode *scoreLabel;
 
 @end
