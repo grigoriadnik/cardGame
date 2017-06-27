@@ -84,12 +84,12 @@
                     if(touchedCard.identifier == aCard.identifier) {
                         touchedCard.focused=NO;
                         aCard.focused=NO;
+                        [user removePlayerCardAtIndex:i];
+                        [self.gameHandler addToCenterCardPile:aCard];
                         [touchedCard setZPosition:[self.gameHandler getCenterCardPileCount]];
                         [touchedCard setZRotation:((((float)rand() / RAND_MAX) * 100)/100)*M_PI];
                         SKAction *dropCard =[SKAction moveTo:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)  duration:0.2];
                         [touchedCard runAction:dropCard completion:^{
-                            [user removePlayerCardAtIndex:i];
-                            [self.gameHandler addToCenterCardPile:aCard];
                             [self.gameHandler checkWin];
                             [self.gameHandler endTurn];
                         }];
@@ -250,7 +250,9 @@
     while ([self.gameHandler getCenterCardPileCount]!=0)
     {
         Card *aCard = [self.gameHandler getCenterCardPileBottomCard];
-        [[self childNodeWithName:aCard.name] runAction:anAction];
+        [[self childNodeWithName:aCard.name] runAction:anAction completion:^{
+            [aCard removeFromParent];
+        }];
         [self.gameHandler addCardFromPileToPlayer:aCard];
         [self.gameHandler removeCenterCardPileBottomCard];
     }

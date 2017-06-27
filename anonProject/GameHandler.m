@@ -119,8 +119,29 @@
 
 -(void) checkWin
 {
-    if([self getCenterCardPileCount] < 2) {
+    if([self getCenterCardPileCount] < 2 && ![self lastHandPlayed]) {
          return;
+    }
+    
+    if([self lastHandPlayed]) {
+        switch (self.currentPlayerIndex % [self numOfPlayers]) {
+            case 0:
+                [self.gameHandlerDelegate player1GathersCards:self.gameMode];
+                break;
+            case 1:
+                [self.gameHandlerDelegate player2GathersCards:self.gameMode];
+                break;
+            case 2:
+                [self.gameHandlerDelegate player3GathersCards:self.gameMode];
+                break;
+            case 3:
+                [self.gameHandlerDelegate player4GathersCards:self.gameMode];
+                break;
+            default:
+                break;
+        }
+        
+        return;
     }
     
     if(self.gameHandlerDelegate == nil) {
@@ -130,7 +151,7 @@
     Card *topCard = [self.gameDeck getCenterCardPileTopCard];
     Card *secondTopCard = [self.gameDeck getCenterCardPileSecondTopCard];
     
-    if(topCard.number==11 || topCard.number==secondTopCard.number || [self lastHandPlayed])//wins hand
+    if(topCard.number==11 || topCard.number==secondTopCard.number )//wins hand
     {
         if([self.gameDeck getCenterCardPileCount] == 2 && topCard.number == secondTopCard.number){//kseri
             Player *aPlayer = [self.players objectAtIndex:self.currentPlayerIndex % [self numOfPlayers]];
