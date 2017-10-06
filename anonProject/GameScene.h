@@ -24,5 +24,8 @@
 @property (nonatomic,strong) SKLabelNode *player4Label;
 @property (nonatomic,strong) SKSpriteNode *deckCardNode;
 @property (nonatomic,strong) SKLabelNode *scoreLabel;
+@property (nonatomic,strong) SKSpriteNode *scoreInfoContainer;
+@property (nonatomic,strong) SKSpriteNode *menuButtonContainer;
+
 
 @end

@@ -19,11 +19,14 @@
 @synthesize player3Label;
 @synthesize player4Label;
 @synthesize scoreLabel;
+@synthesize scoreInfoContainer;
+@synthesize menuButtonContainer;
 
 -(void)didMoveToView:(SKView *)view
 {
-    deckCardNode = (SKSpriteNode *) [self childNodeWithName:@"deckCard"];
+    [self setScaleMode:SKSceneScaleModeResizeFill];
     
+    deckCardNode = (SKSpriteNode *) [self childNodeWithName:@"deckCard"];
     teamAScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team1score"];
     teamBScoreLabel = (SKLabelNode*)[[self childNodeWithName:@"blackboard"] childNodeWithName:@"team2score"];
    
@@ -40,6 +43,23 @@
     [player3Label setText:@"CPU2"];
     [player4Label setText:@"CPU3"];
     
+    
+    scoreInfoContainer = (SKSpriteNode *) [[self childNodeWithName:@"blackboard"] childNodeWithName:@"scoreInfoContainer"];
+//    [scoreInfoContainer setPhysicsBody:[SKPhysicsBody bodyWithCircleOfRadius:10]];
+   
+    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointZero
+                                                        radius: scoreInfoContainer.frame.size.height/2
+                                                    startAngle: 0
+                                                      endAngle: M_PI * 2
+                                                     clockwise: YES];
+    SKShapeNode* circle = [SKShapeNode node];
+    circle.path = path.CGPath;
+    circle.lineWidth = 2.0;
+    circle.fillColor = [UIColor clearColor];
+    circle.strokeColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
+    [scoreInfoContainer addChild:circle];
+
+    
     if(self.numOfPlayers==2)
     {
         [player1Label setPosition:CGPointMake(self.view.frame.size.width/5, [self childNodeWithName:@"deckCard"].frame.size.height)];
@@ -53,14 +73,20 @@
         
     }
     [self setTeamAScore:0 teamBScore:0];
-    
+//    
     SKSpriteNode *blackboard=(SKSpriteNode *)[self childNodeWithName:@"blackboard"];
-    [blackboard setTexture:[SKTexture textureWithImage:[UIImage imageNamed:@"blackboard2.jpg"]]];
-    [blackboard setPosition:CGPointMake(self.view.frame.size.width-blackboard.frame.size.width/2-20, self.view.frame.size.height-blackboard.frame.size.height/2-20)];
+    [blackboard setPosition:CGPointMake(self.view.frame.size.width-blackboard.frame.size.width/2-20, self.view.frame.size.height-blackboard.frame.size.height/2-10)];
     
-    SKSpriteNode *menuBar= (SKSpriteNode *)[self childNodeWithName:@"menuBar"];
-    [menuBar setSize:CGSizeMake(self.view.frame.size.width, 20)];
-    [menuBar setPosition:CGPointMake(0, self.view.frame.size.height-10)];
+    menuButtonContainer = (SKSpriteNode *)[self childNodeWithName:@"menuButtonContainer"];
+    [menuButtonContainer setPosition:CGPointMake(20, self.view.frame.size.height-blackboard.frame.size.height/2-10)];
+    UIBezierPath* menuOvalPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, menuButtonContainer.frame.size.width, menuButtonContainer.frame.size.height) cornerRadius:menuButtonContainer.frame.size.height/2.0];
+    
+    SKShapeNode* menuButtonLayer = [SKShapeNode node];
+    menuButtonLayer.path = menuOvalPath.CGPath;
+    menuButtonLayer.lineWidth = 2.0;
+    menuButtonLayer.fillColor = [UIColor clearColor];
+    menuButtonLayer.strokeColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
+    [menuButtonContainer addChild:menuButtonLayer];
     
     
     SKSpriteNode *backgroundNode=(SKSpriteNode *)[self childNodeWithName:@"backgroundNode"];

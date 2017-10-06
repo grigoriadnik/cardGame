@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.justOnce=true;
+    self.justOnce=YES;
 }
 
 -(void) viewDidLayoutSubviews
@@ -46,7 +46,7 @@
     [super viewDidAppear:animated];
     if(self.justOnce)
     {
-        self.justOnce=false;
+        self.justOnce=NO;
         // Configure the view.
         SKView * skView = (SKView *)self.view;
         skView.showsFPS = YES;
