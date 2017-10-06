@@ -72,22 +72,15 @@
     {
         
     }
+    
     [self setTeamAScore:0 teamBScore:0];
 //    
     SKSpriteNode *blackboard=(SKSpriteNode *)[self childNodeWithName:@"blackboard"];
     [blackboard setPosition:CGPointMake(self.view.frame.size.width-blackboard.frame.size.width/2-20, self.view.frame.size.height-blackboard.frame.size.height/2-10)];
     
-    menuButtonContainer = (SKSpriteNode *)[self childNodeWithName:@"menuButtonContainer"];
+    menuButtonContainer = (CustomButton *)[self childNodeWithName:@"menuButtonContainer"];
+    [menuButtonContainer initButtonWithType:MenuButton];
     [menuButtonContainer setPosition:CGPointMake(20, self.view.frame.size.height-blackboard.frame.size.height/2-10)];
-    UIBezierPath* menuOvalPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, menuButtonContainer.frame.size.width, menuButtonContainer.frame.size.height) cornerRadius:menuButtonContainer.frame.size.height/2.0];
-    
-    SKShapeNode* menuButtonLayer = [SKShapeNode node];
-    menuButtonLayer.path = menuOvalPath.CGPath;
-    menuButtonLayer.lineWidth = 2.0;
-    menuButtonLayer.fillColor = [UIColor clearColor];
-    menuButtonLayer.strokeColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
-    [menuButtonContainer addChild:menuButtonLayer];
-    
     
     SKSpriteNode *backgroundNode=(SKSpriteNode *)[self childNodeWithName:@"backgroundNode"];
     [backgroundNode setSize:self.view.frame.size];
@@ -104,7 +97,11 @@
 {
     for(UITouch *touch in touches) {
         
-        if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[Card class]] ) {
+        if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[CustomButton class]] ){
+            
+            NSLog(@"pressed menu button ");
+            
+        }else if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[Card class]] ) {
             
             Player *user = [self.gameHandler getUser];
             Card *touchedCard=(Card *)[self nodeAtPoint:[touch locationInNode:self]];
@@ -138,8 +135,7 @@
                         aCard.focused=YES;
                         SKAction *focusCard =[SKAction moveTo:CGPointMake(touchedCard.position.x, touchedCard.position.y+40)  duration:0.2];
                         [touchedCard runAction:focusCard];
-                    }
-                    else if([aCard isFocused]){//if another card is focused
+                    } else if([aCard isFocused]){//if another card is focused
                     
                         Card *focusedCard= (Card *) [self childNodeWithName:aCard.name];
                         focusedCard.focused=NO;

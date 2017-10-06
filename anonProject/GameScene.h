@@ -10,6 +10,7 @@
 #import "Deck.h"
 #import "Player.h"
 #import "GameHandler.h"
+#import "CustomButton.h"
 
 @interface GameScene : SKScene < GameHandlerDelegate >
 
@@ -25,7 +26,7 @@
 @property (nonatomic,strong) SKSpriteNode *deckCardNode;
 @property (nonatomic,strong) SKLabelNode *scoreLabel;
 @property (nonatomic,strong) SKSpriteNode *scoreInfoContainer;
-@property (nonatomic,strong) SKSpriteNode *menuButtonContainer;
+@property (nonatomic,strong) CustomButton *menuButtonContainer;
 
 
 @end

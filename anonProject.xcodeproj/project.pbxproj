@@ -11,6 +11,7 @@
 		1918B8BD1EFAAA0500DCE3C0 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BC1EFAAA0400DCE3C0 /* Player.m */; };
 		1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */; };
 		1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8C31F000BB800DCE3C0 /* Utils.m */; };
+		198B68C01F87AE1300B063FF /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 198B68BF1F87AE1300B063FF /* CustomButton.m */; };
 		80658B231C560A5500AD3CB8 /* wood-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B221C560A5500AD3CB8 /* wood-background.jpg */; };
 		80658B261C560AFD00AD3CB8 /* Wood_Background_brown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */; };
 		80658B271C560AFD00AD3CB8 /* Wood_Background_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */; };
@@ -121,6 +122,8 @@
 		1918B8C11EFBF26100DCE3C0 /* GameHandlerDelegates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameHandlerDelegates.h; sourceTree = "<group>"; };
 		1918B8C21F000BB800DCE3C0 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		1918B8C31F000BB800DCE3C0 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		198B68BE1F87AE1300B063FF /* CustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		198B68BF1F87AE1300B063FF /* CustomButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		80658B221C560A5500AD3CB8 /* wood-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wood-background.jpg"; sourceTree = "<group>"; };
 		80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_brown.jpg; sourceTree = "<group>"; };
 		80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_green.jpg; sourceTree = "<group>"; };
@@ -239,6 +242,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		198B68BC1F87ADD500B063FF /* model */ = {
+			isa = PBXGroup;
+			children = (
+				80A6D1A01C478B2100FB3145 /* Card.h */,
+				80A6D1A11C478B2100FB3145 /* Card.m */,
+				1918B8B81EFA904D00DCE3C0 /* Deck.h */,
+				1918B8B91EFA904D00DCE3C0 /* Deck.m */,
+				1918B8BB1EFAAA0400DCE3C0 /* Player.h */,
+				1918B8BC1EFAAA0400DCE3C0 /* Player.m */,
+				198B68BE1F87AE1300B063FF /* CustomButton.h */,
+				198B68BF1F87AE1300B063FF /* CustomButton.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		198B68BD1F87ADEB00B063FF /* handlers */ = {
+			isa = PBXGroup;
+			children = (
+				1918B8C11EFBF26100DCE3C0 /* GameHandlerDelegates.h */,
+				1918B8BE1EFBBDD300DCE3C0 /* GameHandler.h */,
+				1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */,
+			);
+			name = handlers;
+			sourceTree = "<group>";
+		};
 		80BC4CBC1C4CD9000045D20E /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,20 +286,13 @@
 		80BC4CC11C4CDEEE0045D20E /* game 1 */ = {
 			isa = PBXGroup;
 			children = (
-				80A6D1A01C478B2100FB3145 /* Card.h */,
-				80A6D1A11C478B2100FB3145 /* Card.m */,
+				198B68BD1F87ADEB00B063FF /* handlers */,
+				198B68BC1F87ADD500B063FF /* model */,
 				80D2C7AC1B4ED1E700293210 /* GameScene.h */,
 				80D2C7AD1B4ED1E700293210 /* GameScene.m */,
 				80BC4CC21C4CDF390045D20E /* GameViewController.h */,
 				80BC4CC31C4CDF390045D20E /* GameViewController.m */,
 				80D2C7AF1B4ED1E700293210 /* GameScene.sks */,
-				1918B8B81EFA904D00DCE3C0 /* Deck.h */,
-				1918B8B91EFA904D00DCE3C0 /* Deck.m */,
-				1918B8BB1EFAAA0400DCE3C0 /* Player.h */,
-				1918B8BC1EFAAA0400DCE3C0 /* Player.m */,
-				1918B8BE1EFBBDD300DCE3C0 /* GameHandler.h */,
-				1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */,
-				1918B8C11EFBF26100DCE3C0 /* GameHandlerDelegates.h */,
 				1918B8C21F000BB800DCE3C0 /* Utils.h */,
 				1918B8C31F000BB800DCE3C0 /* Utils.m */,
 			);
@@ -610,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				198B68C01F87AE1300B063FF /* CustomButton.m in Sources */,
 				1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */,
 				1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */,
 				1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */,
