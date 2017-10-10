@@ -41,14 +41,9 @@
     
     self.twoPlayersButton.layer.cornerRadius=15.0;
     self.twoPlayersButton.layer.masksToBounds=YES;
-    self.twoPlayersButton.layer.borderWidth=1.0;
-    self.twoPlayersButton.layer.borderColor=[UIColor whiteColor].CGColor;
     
     self.fourPlayersButton.layer.cornerRadius=15.0;
     self.fourPlayersButton.layer.masksToBounds=YES;
-    self.fourPlayersButton.layer.borderWidth=1.0;
-    self.fourPlayersButton.layer.borderColor=[UIColor whiteColor].CGColor;
-    
     
     if(!self.justOnce)
     {
@@ -110,25 +105,33 @@
     
     self.twoPlayersButtonWidth.constant=135;
     self.fourPlayersButtonWidth.constant=135;
-    [UIView animateWithDuration:0.5 animations:^{
+    
+    //self.fourPlayersButton.center = CGPointMake(self.fourPlayersButton.frame.size.width, self.fourPlayersButton.frame.size.height/2.0);
+    
+    [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }completion:^(BOOL completed)
      {
-         self.twoPlayersButton.layer.borderColor=[UIColor whiteColor].CGColor;
-         self.twoPlayersButton.layer.borderWidth=1.0;
-         self.twoPlayersButton.layer.masksToBounds=YES;
+          dispatch_async(dispatch_get_main_queue(), ^{
+              self.twoPlayersButton.layer.borderColor   = [UIColor whiteColor].CGColor;
+              self.twoPlayersButton.layer.borderWidth   = 1.0;
+              self.twoPlayersButton.layer.masksToBounds = YES;
+              
+              self.fourPlayersButton.layer.borderColor   = [UIColor whiteColor].CGColor;
+              self.fourPlayersButton.layer.borderWidth   = 1.0;
+              self.fourPlayersButton.layer.masksToBounds = YES;
+              
+              [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateNormal];
+              [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateHighlighted];
+              [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateDisabled];
+              
+              [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateNormal];
+              [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateHighlighted];
+              [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateDisabled];
+              
+              [self.view layoutIfNeeded];
+          });
          
-         self.fourPlayersButton.layer.borderColor=[UIColor whiteColor].CGColor;
-         self.fourPlayersButton.layer.borderWidth=1.0;
-         self.fourPlayersButton.layer.masksToBounds=YES;
-         
-         [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateNormal];
-         [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateHighlighted];
-         [self.twoPlayersButton setTitle:@"2 Players" forState:UIControlStateDisabled];
-         
-         [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateNormal];
-         [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateHighlighted];
-         [self.fourPlayersButton setTitle:@"4 Players" forState:UIControlStateDisabled];
      }];
 }
 

@@ -104,6 +104,7 @@
             
             if(self.menuView == nil) {
                  self.menuView = [GameMenuView initControllerForFrame:self.view.frame listener:self];
+                [self.view addSubview:self.menuView];
             } else if(![self.view.subviews containsObject:self.menuView]) {
                 [self.view addSubview:self.menuView];
             }
