@@ -97,9 +97,16 @@
 {
     for(UITouch *touch in touches) {
         
+        if([self.view.subviews containsObject:self.menuView]){
+            return;
+        }
         if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[CustomButton class]] ){
             
-            NSLog(@"pressed menu button ");
+            if(self.menuView == nil) {
+                 self.menuView = [GameMenuView initControllerForFrame:self.view.frame listener:self];
+            } else if(![self.view.subviews containsObject:self.menuView]) {
+                [self.view addSubview:self.menuView];
+            }
             
         }else if([[self nodeAtPoint:[touch locationInNode:self]] isKindOfClass:[Card class]] ) {
             
@@ -290,7 +297,6 @@
         }];
     }
     
-    
     while ([self.gameHandler getCenterCardPileCount]!=0)
     {
         Card *aCard = [self.gameHandler getCenterCardPileBottomCard];
@@ -334,6 +340,35 @@
 {
     [self.teamAScoreLabel setText:[NSString stringWithFormat:@"%ld",(long)teamAscore]];
     [self.teamBScoreLabel setText:[NSString stringWithFormat:@"%ld",(long)teamBscore]];
+}
+
+-(void) userSelectedOption : (MenuOption) anOption
+{
+    switch (anOption) {
+        case ResumeOption:
+            
+            if([self.view.subviews containsObject:self.menuView]) {
+                [self.menuView removeFromSuperview];
+            }
+            
+            break;
+            
+        case ExitOption:
+            
+            if([self.view.subviews containsObject:self.menuView]) {
+                [self.menuView removeFromSuperview];
+                if(self.navigationDelegate != nil){
+                    [self removeFromParent];
+                    [self.view presentScene:nil];
+                    [self.navigationDelegate exitGame];
+                }
+            }
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime

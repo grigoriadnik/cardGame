@@ -1,13 +1,5 @@
-//
-//  GameViewController.m
-//  anonProject
-//
-//  Created by Nikolaos Grigoriadis on 7/9/15.
-//  Copyright (c) 2015 anon. All rights reserved.
-//
 
 #import "GameViewController.h"
-#import "GameScene.h"
 
 @implementation SKScene (Unarchive)
 
@@ -46,24 +38,25 @@
     [super viewDidAppear:animated];
     if(self.justOnce)
     {
-        self.justOnce=NO;
+        self.justOnce = NO;
         // Configure the view.
-        SKView * skView = (SKView *)self.view;
-        skView.showsFPS = YES;
-        skView.showsNodeCount = YES;
+        self.skView = (SKView *)self.view;
+        self.skView.showsFPS = YES;
+        self.skView.showsNodeCount = YES;
         /* Sprite Kit applies additional optimizations to improve rendering performance */
-        skView.ignoresSiblingOrder = YES;
+        self.skView.ignoresSiblingOrder = YES;
         
         // Create and configure the scene.
-        GameScene *scene = [GameScene unarchiveFromFile:@"GameScene"];// initWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
-        scene.scaleMode = SKSceneScaleModeAspectFill;
+        self.gameScene = [GameScene unarchiveFromFile:@"GameScene"];// initWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
+        self.gameScene.navigationDelegate = self;
+        self.gameScene.scaleMode = SKSceneScaleModeAspectFill;
         // scene = GameScene(size: self.view.frame.size)
-        [scene setSize:skView.bounds.size];
-        scene.numOfPlayers=self.numOfPlayers;
+        [self.gameScene setSize : self.skView.bounds.size];
+        self.gameScene.numOfPlayers=self.numOfPlayers;
         // Present the scene.
-        [skView presentScene:scene];
+        [self.skView presentScene : self.gameScene];
         
-        NSLog(@"%f %f",skView.frame.size.width,skView.frame.size.height);
+        NSLog(@"%f %f",self.skView.frame.size.width,self.skView.frame.size.height);
     }
 }
 
@@ -72,7 +65,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationMaskAllButUpsideDown;
@@ -87,8 +80,15 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (BOOL)prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden
+{
     return YES;
+}
+
+-(void) exitGame
+{
+    [self.skView presentScene:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

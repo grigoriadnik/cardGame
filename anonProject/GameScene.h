@@ -11,11 +11,15 @@
 #import "Player.h"
 #import "GameHandler.h"
 #import "CustomButton.h"
-
-@interface GameScene : SKScene < GameHandlerDelegate >
+#import "GameMenuView.h"
+#import "GameMenuViewDelegate.h"
+#import "NavigationDelegates.h"
+@interface GameScene : SKScene < GameHandlerDelegate, GameMenuViewDelegate >
 
 @property int numOfPlayers;
 @property GameHandler *gameHandler;
+@property GameMenuView *menuView;
+@property (nonatomic, weak) id<NavigationDelegates> navigationDelegate;
 
 @property (nonatomic,strong) SKLabelNode *teamAScoreLabel;
 @property (nonatomic,strong) SKLabelNode *teamBScoreLabel;

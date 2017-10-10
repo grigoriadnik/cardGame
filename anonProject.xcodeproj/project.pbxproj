@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		191694871F8CFA1F00CD6A92 /* ClubsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 191694851F8CF8AC00CD6A92 /* ClubsIcon.png */; };
+		191694881F8CFA2100CD6A92 /* DiamondsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 191694861F8CF8B000CD6A92 /* DiamondsIcon.png */; };
+		191694891F8CFA2400CD6A92 /* HeartsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 191694831F8CF8AC00CD6A92 /* HeartsIcon.png */; };
+		1916948A1F8CFA2600CD6A92 /* SpadesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 191694841F8CF8AC00CD6A92 /* SpadesIcon.png */; };
 		1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8B91EFA904D00DCE3C0 /* Deck.m */; };
 		1918B8BD1EFAAA0500DCE3C0 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BC1EFAAA0400DCE3C0 /* Player.m */; };
 		1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8BF1EFBBDD300DCE3C0 /* GameHandler.m */; };
 		1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918B8C31F000BB800DCE3C0 /* Utils.m */; };
 		198B68C01F87AE1300B063FF /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 198B68BF1F87AE1300B063FF /* CustomButton.m */; };
+		198B68C41F8B600B00B063FF /* GameMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 198B68C31F8B600B00B063FF /* GameMenuView.m */; };
+		198B68C61F8B602D00B063FF /* GameMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198B68C51F8B602D00B063FF /* GameMenuView.xib */; };
 		80658B231C560A5500AD3CB8 /* wood-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B221C560A5500AD3CB8 /* wood-background.jpg */; };
 		80658B261C560AFD00AD3CB8 /* Wood_Background_brown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */; };
 		80658B271C560AFD00AD3CB8 /* Wood_Background_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */; };
@@ -113,6 +119,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		191694821F8BB38600CD6A92 /* GameMenuViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMenuViewDelegate.h; sourceTree = "<group>"; };
+		191694831F8CF8AC00CD6A92 /* HeartsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HeartsIcon.png; sourceTree = "<group>"; };
+		191694841F8CF8AC00CD6A92 /* SpadesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpadesIcon.png; sourceTree = "<group>"; };
+		191694851F8CF8AC00CD6A92 /* ClubsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClubsIcon.png; sourceTree = "<group>"; };
+		191694861F8CF8B000CD6A92 /* DiamondsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiamondsIcon.png; sourceTree = "<group>"; };
+		1916948B1F8CFE8200CD6A92 /* NavigationDelegates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationDelegates.h; sourceTree = "<group>"; };
 		1918B8B81EFA904D00DCE3C0 /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Deck.h; sourceTree = "<group>"; };
 		1918B8B91EFA904D00DCE3C0 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		1918B8BB1EFAAA0400DCE3C0 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
@@ -124,6 +136,9 @@
 		1918B8C31F000BB800DCE3C0 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		198B68BE1F87AE1300B063FF /* CustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		198B68BF1F87AE1300B063FF /* CustomButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		198B68C21F8B600B00B063FF /* GameMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMenuView.h; sourceTree = "<group>"; };
+		198B68C31F8B600B00B063FF /* GameMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameMenuView.m; sourceTree = "<group>"; };
+		198B68C51F8B602D00B063FF /* GameMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameMenuView.xib; sourceTree = "<group>"; };
 		80658B221C560A5500AD3CB8 /* wood-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "wood-background.jpg"; sourceTree = "<group>"; };
 		80658B241C560AFC00AD3CB8 /* Wood_Background_brown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_brown.jpg; sourceTree = "<group>"; };
 		80658B251C560AFC00AD3CB8 /* Wood_Background_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Wood_Background_green.jpg; sourceTree = "<group>"; };
@@ -267,9 +282,24 @@
 			name = handlers;
 			sourceTree = "<group>";
 		};
+		198B68C11F8B5FEE00B063FF /* in-game menu */ = {
+			isa = PBXGroup;
+			children = (
+				191694821F8BB38600CD6A92 /* GameMenuViewDelegate.h */,
+				198B68C21F8B600B00B063FF /* GameMenuView.h */,
+				198B68C31F8B600B00B063FF /* GameMenuView.m */,
+				198B68C51F8B602D00B063FF /* GameMenuView.xib */,
+			);
+			name = "in-game menu";
+			sourceTree = "<group>";
+		};
 		80BC4CBC1C4CD9000045D20E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				191694861F8CF8B000CD6A92 /* DiamondsIcon.png */,
+				191694851F8CF8AC00CD6A92 /* ClubsIcon.png */,
+				191694831F8CF8AC00CD6A92 /* HeartsIcon.png */,
+				191694841F8CF8AC00CD6A92 /* SpadesIcon.png */,
 				80E1E7201C57C0B900BD7E5C /* blackboard2.jpg */,
 				80E1E71E1C57BAEC00BD7E5C /* blackboard.gif */,
 				80C650E41C5762E700C9DE79 /* dancingCard.gif */,
@@ -286,13 +316,15 @@
 		80BC4CC11C4CDEEE0045D20E /* game 1 */ = {
 			isa = PBXGroup;
 			children = (
+				198B68C11F8B5FEE00B063FF /* in-game menu */,
 				198B68BD1F87ADEB00B063FF /* handlers */,
 				198B68BC1F87ADD500B063FF /* model */,
+				1916948B1F8CFE8200CD6A92 /* NavigationDelegates.h */,
 				80D2C7AC1B4ED1E700293210 /* GameScene.h */,
 				80D2C7AD1B4ED1E700293210 /* GameScene.m */,
+				80D2C7AF1B4ED1E700293210 /* GameScene.sks */,
 				80BC4CC21C4CDF390045D20E /* GameViewController.h */,
 				80BC4CC31C4CDF390045D20E /* GameViewController.m */,
-				80D2C7AF1B4ED1E700293210 /* GameScene.sks */,
 				1918B8C21F000BB800DCE3C0 /* Utils.h */,
 				1918B8C31F000BB800DCE3C0 /* Utils.m */,
 			);
@@ -545,6 +577,7 @@
 				80D2C8CB1B4ED6F700293210 /* h6.png in Resources */,
 				80D2C8C31B4ED6F700293210 /* d12.png in Resources */,
 				80D2C89F1B4ED6F700293210 /* b1fv.png in Resources */,
+				198B68C61F8B602D00B063FF /* GameMenuView.xib in Resources */,
 				80D2C8C41B4ED6F700293210 /* ec.png in Resources */,
 				80D2C8CA1B4ED6F700293210 /* h5.png in Resources */,
 				80D2C8B21B4ED6F700293210 /* c8.png in Resources */,
@@ -572,6 +605,7 @@
 				80D2C8BE1B4ED6F700293210 /* d7.png in Resources */,
 				80D2C8C21B4ED6F700293210 /* d13.png in Resources */,
 				80658B231C560A5500AD3CB8 /* wood-background.jpg in Resources */,
+				1916948A1F8CFA2600CD6A92 /* SpadesIcon.png in Resources */,
 				80D2C8DA1B4ED6F700293210 /* s5.png in Resources */,
 				80658B261C560AFD00AD3CB8 /* Wood_Background_brown.jpg in Resources */,
 				80D2C8B71B4ED6F700293210 /* d1.png in Resources */,
@@ -582,6 +616,7 @@
 				80D2C8D81B4ED6F700293210 /* s3.png in Resources */,
 				80D2C8BF1B4ED6F700293210 /* d8.png in Resources */,
 				80D2C8A11B4ED6F700293210 /* b1pl.png in Resources */,
+				191694891F8CFA2400CD6A92 /* HeartsIcon.png in Resources */,
 				80C650E51C5762E700C9DE79 /* dancingCard.gif in Resources */,
 				80D2C8C61B4ED6F700293210 /* h10.png in Resources */,
 				80D2C7B01B4ED1E700293210 /* GameScene.sks in Resources */,
@@ -589,6 +624,7 @@
 				80D2C8BB1B4ED6F700293210 /* d4.png in Resources */,
 				80D2C8D11B4ED6F700293210 /* h12.png in Resources */,
 				80D2C8A61B4ED6F700293210 /* b2pb.png in Resources */,
+				191694871F8CFA1F00CD6A92 /* ClubsIcon.png in Resources */,
 				80D2C8A91B4ED6F700293210 /* b2pt.png in Resources */,
 				80D2C8AE1B4ED6F700293210 /* c4.png in Resources */,
 				80D2C8D51B4ED6F700293210 /* s1.png in Resources */,
@@ -599,6 +635,7 @@
 				80D2C89E1B4ED6F700293210 /* b1fh.png in Resources */,
 				80D2C8A31B4ED6F700293210 /* b1pt.png in Resources */,
 				80BC4CC01C4CD91F0045D20E /* cards_intro.png in Resources */,
+				191694881F8CFA2100CD6A92 /* DiamondsIcon.png in Resources */,
 				80D2C8DF1B4ED6F700293210 /* s11.png in Resources */,
 				80D2C8B31B4ED6F700293210 /* c9.png in Resources */,
 				80D2C8CC1B4ED6F700293210 /* h7.png in Resources */,
@@ -632,6 +669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				198B68C01F87AE1300B063FF /* CustomButton.m in Sources */,
+				198B68C41F8B600B00B063FF /* GameMenuView.m in Sources */,
 				1918B8C01EFBBDD300DCE3C0 /* GameHandler.m in Sources */,
 				1918B8C41F000BB800DCE3C0 /* Utils.m in Sources */,
 				1918B8BA1EFA904D00DCE3C0 /* Deck.m in Sources */,

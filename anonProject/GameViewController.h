@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
+#import "NavigationDelegates.h"
+#import "GameScene.h"
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController < NavigationDelegates >
 
 @property BOOL justOnce;
 @property int numOfPlayers;
+
+@property GameScene *gameScene;
+@property SKView *skView;
 
 @end

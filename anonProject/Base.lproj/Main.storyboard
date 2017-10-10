@@ -28,19 +28,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Wood_Background_brown.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="XKf-eo-066">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wood_Background_brown.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="XKf-eo-066">
+                                <rect key="frame" x="-4" y="0.0" width="383" height="667"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="cards_intro.png" translatesAutoresizingMaskIntoConstraints="NO" id="fZ0-Y5-j1i">
-                                <rect key="frame" x="49" y="28" width="400" height="107"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cards_intro.png" translatesAutoresizingMaskIntoConstraints="NO" id="fZ0-Y5-j1i">
+                                <rect key="frame" x="45" y="28" width="303" height="81"/>
                                 <color key="tintColor" red="0.28946098685264587" green="0.58735501766204834" blue="0.084334857761859894" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fZ0-Y5-j1i" secondAttribute="height" multiplier="15:4" id="vpC-Cu-JZh"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6j-5O-5vS">
-                                <rect key="frame" x="90" y="153" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6j-5O-5vS">
+                                <rect key="frame" x="37.5" y="127" width="300" height="30"/>
                                 <color key="backgroundColor" red="0.043075427412986755" green="0.32785087823867798" blue="0.0031755934469401836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="sgn-1x-SCh"/>
@@ -54,8 +54,8 @@
                                     <action selector="newGamePressed:" destination="LVB-YS-i5n" eventType="touchUpInside" id="HF8-sX-Yka"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8r-tN-sk7">
-                                <rect key="frame" x="90" y="203" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h8r-tN-sk7">
+                                <rect key="frame" x="37.5" y="177" width="300" height="30"/>
                                 <color key="backgroundColor" red="0.043075427412986755" green="0.32785087823867798" blue="0.0031755934469401836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="HDl-3y-0Op"/>
@@ -75,8 +75,8 @@
                                     <action selector="newGamePressed:" destination="LVB-YS-i5n" eventType="touchUpInside" id="5Nn-Ii-0vw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uno-pA-cuv">
-                                <rect key="frame" x="90" y="250" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uno-pA-cuv">
+                                <rect key="frame" x="37.5" y="224" width="300" height="30"/>
                                 <color key="backgroundColor" red="0.043075427412986755" green="0.32785087823867798" blue="0.0031755934469401836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="EqV-nS-cIz"/>
@@ -96,8 +96,8 @@
                                     <action selector="newGamePressed:" destination="LVB-YS-i5n" eventType="touchUpInside" id="A5R-Oy-B9a"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJ9-Sm-d1F" userLabel="2playersButton">
-                                <rect key="frame" x="90" y="153" width="300" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJ9-Sm-d1F" userLabel="2playersButton">
+                                <rect key="frame" x="37.5" y="127" width="300" height="30"/>
                                 <color key="backgroundColor" red="0.043075427412986755" green="0.32785087823867798" blue="0.0031755934469401836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Rg9-UO-Aw5"/>
@@ -108,11 +108,11 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Oih-sa-0aF" kind="show" identifier="2Players" id="4cG-0E-QJt"/>
+                                    <segue destination="Oih-sa-0aF" kind="show" identifier="2Players" animates="NO" id="4cG-0E-QJt"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rVZ-rM-NFN" userLabel="4playersButton">
-                                <rect key="frame" x="90" y="153" width="300" height="30"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rVZ-rM-NFN" userLabel="4playersButton">
+                                <rect key="frame" x="37.5" y="127" width="300" height="30"/>
                                 <color key="backgroundColor" red="0.043075427412986755" green="0.32785087823867798" blue="0.0031755934469401836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="qW3-6r-5yk"/>
@@ -123,11 +123,11 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Oih-sa-0aF" kind="show" identifier="4Players" id="y68-pL-B5C"/>
+                                    <segue destination="Oih-sa-0aF" kind="show" identifier="4Players" animates="NO" id="y68-pL-B5C"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u6-Yr-ly5">
-                                <rect key="frame" x="375" y="212" width="85" height="100"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8u6-Yr-ly5">
+                                <rect key="frame" x="274" y="559" width="85" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="85" id="KyV-3p-rB3"/>
                                     <constraint firstAttribute="height" constant="100" id="z7J-gO-gPv"/>
@@ -207,7 +207,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zZb-nD-uH0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="591" y="360"/>
+            <point key="canvasLocation" x="1026" y="262"/>
         </scene>
     </scenes>
     <resources>
@@ -215,6 +215,6 @@
         <image name="cards_intro.png" width="400" height="375"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="y68-pL-B5C"/>
+        <segue reference="4cG-0E-QJt"/>
     </inferredMetricsTieBreakers>
 </document>
