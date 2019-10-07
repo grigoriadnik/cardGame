@@ -12,6 +12,7 @@ It gives two options for the player to start the game (2-player or 4-player)
 
 TODO 
 Multiplayer feature
+
 Rule explanation
 
 ### In-Game
